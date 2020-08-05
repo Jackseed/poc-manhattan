@@ -1,6 +1,4 @@
-interface Right {
-
-}
+interface Right {}
 
 /** Manage the control */
 interface Ownership extends Right {
@@ -8,9 +6,7 @@ interface Ownership extends Right {
 }
 
 /**  */
-interface Exploitation extends Right {
-
-}
+interface Exploitation extends Right {}
 
 // /** Rights given against an Exploitation/Ownership right */
 // interface Receipts extends Right {
@@ -20,13 +16,10 @@ interface Exploitation extends Right {
 //   base;
 // }
 
-
 /**  */
 interface Financing extends Right {}
 
-
 //////////////////////////////////
-
 
 /** Relation between n parties to transfer rights */
 interface Deal {
@@ -38,15 +31,14 @@ interface Deal {
   sellerRights: Right;
 }
 
-
 interface Recoupment {
   amount: number;
   recouped: number;
   // terms: { dealId: string, base: number, percentage: number }[];
   terms: {
-    dealIds: string[],
-    base: number,
-    percentage: number
+    dealIds: string[];
+    base: number;
+    percentage: number;
   }[];
 }
 
@@ -58,12 +50,10 @@ interface Expense extends Recoupment {
 
 interface MG extends Recoupment {}
 
-
 /** Option to get Receipt or Ownership after trigger */
 interface Security extends Deal {
   trigger;
 }
-
 
 interface Bonus {
   amount: number;
@@ -86,8 +76,6 @@ interface Contract {
   parties: any[];
 }
 
-
-
 /** Small version of a contract on an Exploitation Right */
 interface DealMemo extends Contract {}
 
@@ -98,24 +86,24 @@ interface ReceiptRight {
   rights: Right[];
   cashedIn?: number;
   amount?: number;
-  base: 'brut' | 'net';
+  base: "brut" | "net";
   blocks: {
     percentage: number;
     from?: Event;
     to?: Event;
   }[];
-};
+}
 
 interface Mandate extends Contract {
   licensee: {
     // Exploitation right
-  }
+  };
   licensor: {
     fee: ReceiptRight[];
     mg: ReceiptRight[];
     expenses: ReceiptRight[];
     perks: Perk[];
-  }
+  };
   bonuses: Bonus[];
 }
 
@@ -141,8 +129,8 @@ interface FinancingContract {
     expenses: ReceiptRight[];
     perks: Perk[];
     security: Security;
-  }
-  prod: Payment[]
+  };
+  prod: Payment[];
 }
 
 interface Payment {
@@ -160,7 +148,7 @@ interface Trigger {}
 
 /** Etape dans le waterfall */
 interface Event {
-  condition: 'union' | 'intersection';
+  condition: "union" | "intersection";
   events: {
     ref: Recoupment;
     percentage: number;
@@ -170,9 +158,9 @@ interface Event {
 /** Condition on an event */
 interface Condition {}
 
-
 /** Terms of a right */
 interface Right {
+  id: string;
   territories: Excludable;
   channels: Excludable;
 }
@@ -182,7 +170,4 @@ interface Excludable {
   excluded: string[];
 }
 
-
-function getIncome(income) {
-
-}
+function getIncome(income) {}
