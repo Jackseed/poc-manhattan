@@ -1,6 +1,6 @@
 export const RECEIPTS = {
   origin: {
-    theatrical: 1000,
+    theatrical: 2600,
     video: 312,
     vod: 299,
     tv: 716,
@@ -12,6 +12,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTheatricalDistributionFees",
     rights: ["originTheatrical"],
+    cashedIn: 0,
     blocks: [
       {
         percentage: 20,
@@ -132,7 +133,7 @@ export const ROYALTIES: ReceiptRight[] = [
       },
     ],
   },
-  {
+  /*   {
     id: "originTheatricalReceipt",
     rights: ["originTheatrical"],
     blocks: [
@@ -140,7 +141,7 @@ export const ROYALTIES: ReceiptRight[] = [
         percentage: 38,
       },
     ],
-  },
+  }, */
 ];
 
 export const EVENTS: Events[] = [
