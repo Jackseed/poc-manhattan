@@ -1,3 +1,13 @@
+export const RECEIPTS = {
+  origin: {
+    theatrical: 1000,
+    video: 312,
+    vod: 299,
+    tv: 716,
+  },
+  row: 700,
+};
+
 export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTheatricalDistributionFees",
