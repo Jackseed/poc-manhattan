@@ -64,7 +64,7 @@ interface Bonus {
 /** Option on an right with a flat fee */
 interface Option {
   duration;
-  price: Receipts;
+  // price: Receipts;
   compensation;
   whoCanTransformIntoContract; // who can raise the option
 }
