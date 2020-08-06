@@ -83,13 +83,14 @@ interface DealMemo extends Contract {}
 interface LongFormAgreement extends Contract {}
 
 interface ReceiptRight {
-  rights: Right[];
+  id: string;
+  rights: string[]; // rightIds
   cashedIn?: number;
   amount?: number;
-  base: "brut" | "net";
+  base?: "brut" | "net"; // vc: not sure if really necessary, from parameter could be enough
   blocks: {
     percentage: number;
-    from?: Event;
+    from?: Event | "brut";
     to?: Event;
   }[];
 }
@@ -147,13 +148,17 @@ interface Perk {
 interface Trigger {}
 
 /** Etape dans le waterfall */
+
 interface Event {
-  condition: "union" | "intersection";
+  id: string;
+  condition?: "union" | "intersection";
   events: {
-    ref: Recoupment;
-    percentage: number;
+    ref: string; // vc: receiptRightId
+    percentage: number; // => percentage of money cashed in / amount invested
   }[];
 }
+
+
 
 /** Condition on an event */
 interface Condition {}

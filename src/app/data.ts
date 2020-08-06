@@ -1,4 +1,61 @@
-export const ROYALTIES = [{}];
+export const ROYALTIES: ReceiptRight[] = [
+  {
+    id: "OriginTheatricalExpenses",
+    rights: [
+      "originTheatrical",
+    ],
+    blocks: [
+      {
+        percentage: 20,
+      },
+    ],
+  },
+  {
+    id: "DistributionFees",
+    rights: [
+      "originTheatrical",
+      "originTv",
+      "originVideo",
+      "originVod",
+      "rowAllRights",
+    ],
+    blocks: [
+      {
+        percentage: 20,
+        from: "brut",
+      },
+    ],
+  },
+  {
+    id: "MG",
+    rights: ["originTheatrical", "originVideo", "originVod", "rowAllRights"],
+    blocks: [
+      {
+        percentage: 100,
+      },
+    ],
+  },
+  {
+    id: "originTheatricalReceipt",
+    rights: ["originTheatrical"],
+    blocks: [
+      {
+        percentage: 38,
+      },
+    ],
+  },
+];
+
+export const EVENTS: Event[] = [
+  {
+    id: "MG recouped",
+    events: [
+      {
+        ref,
+      },
+    ],
+  },
+];
 
 export const RIGHTS: Right[] = [
   {
