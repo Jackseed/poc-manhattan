@@ -1,13 +1,63 @@
 export const ROYALTIES: ReceiptRight[] = [
   {
+    id: "originTheatricalDistributionFees",
+    rights: ["originTheatrical"],
+    blocks: [
+      {
+        percentage: 20,
+        fromRight: "originTheatrical",
+      },
+    ],
+  },
+  {
+    id: "originTvDistributionFees",
+    rights: ["originTv"],
+    blocks: [
+      {
+        percentage: 20,
+        fromRight: "originTv",
+      },
+    ],
+  },
+  {
+    id: "originVideoDistributionFees",
+    rights: ["originVideo"],
+    blocks: [
+      {
+        percentage: 20,
+        fromRight: "originVideo",
+      },
+    ],
+  },
+  {
+    id: "originVodDistributionFees",
+    rights: ["originVod"],
+    blocks: [
+      {
+        percentage: 20,
+        fromRight: "originVod",
+      },
+    ],
+  },
+  {
+    id: "rowAllRightsDistributionFees",
+    rights: ["rowAllRights"],
+    blocks: [
+      {
+        percentage: 20,
+        fromRight: "rowAllRights",
+      },
+    ],
+  },
+  {
     id: "originTheatricalExpenses",
     rights: ["originTheatrical"],
     amount: 1150,
     blocks: [
       {
         percentage: 100,
-        from: "distributionFeeEvent",
-        to: "originTheatricalExpensesRecouped"
+        fromReceiptRight: "originTheatricalDistributionFees",
+        to: "originTheatricalExpensesRecouped",
       },
     ],
   },
@@ -18,8 +68,8 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 100,
-        from: "distributionFeeEvent",
-        to: "originVideoExpensesRecouped"
+        fromReceiptRight: "originVideoDistributionFees",
+        to: "originVideoExpensesRecouped",
       },
     ],
   },
@@ -30,24 +80,8 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 100,
-        from: "distributionFeeEvent",
-        to: "rowExpensesRecouped"
-      },
-    ],
-  },
-  {
-    id: "distributionFees",
-    rights: [
-      "originTheatrical",
-      "originTv",
-      "originVideo",
-      "originVod",
-      "rowAllRights",
-    ],
-    blocks: [
-      {
-        percentage: 20,
-        from: "brut",
+        fromReceiptRight: "rowAllRightsDistributionFees",
+        to: "rowExpensesRecouped",
       },
     ],
   },
@@ -57,6 +91,18 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 100,
+        fromEvent: "originTheatricalExpensesRecouped",
+        to: "MGRecouped",
+      },
+      {
+        percentage: 100,
+        fromEvent: "originVideoExpensesRecouped",
+        to: "MGRecouped",
+      },
+      {
+        percentage: 100,
+        fromEvent: "rowExpensesRecouped",
+        to: "MGRecouped",
       },
     ],
   },
@@ -72,14 +118,6 @@ export const ROYALTIES: ReceiptRight[] = [
 ];
 
 export const EVENTS: Events[] = [
-  {
-    id: "distributionFeeEvent",
-    events: [
-      {
-        ref: "distributionFees",
-      },
-    ],
-  },
   {
     id: "originTheatricalExpensesRecouped",
     events: [
@@ -103,6 +141,15 @@ export const EVENTS: Events[] = [
     events: [
       {
         ref: "rowExpenses",
+        percentage: 100,
+      },
+    ],
+  },
+  {
+    id: "MGRecouped",
+    events: [
+      {
+        ref: "MG",
         percentage: 100,
       },
     ],

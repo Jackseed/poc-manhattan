@@ -92,7 +92,9 @@ interface ReceiptRight {
   base?: "brut" | "net"; // vc: not sure if really necessary, from parameter could be enough
   blocks: {
     percentage: number;
-    from?: string; // eventId or "brut"
+    fromEvent?: string; // eventId
+    fromRight?: string; // rightsId (brut)
+    fromReceiptRight?: string; // receiptRightId (net)
     to?: string; // eventId
   }[];
 }
@@ -160,8 +162,6 @@ interface Events {
     // percentage facultative in case of distribution fee
   }[];
 }
-
-
 
 /** Condition on an event */
 interface Condition {}
