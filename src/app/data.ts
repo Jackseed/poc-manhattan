@@ -5,7 +5,7 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 20,
-        fromRight: "originTheatrical",
+        from: "originTheatrical",
       },
     ],
   },
@@ -15,7 +15,7 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 20,
-        fromRight: "originTv",
+        from: "originTv",
       },
     ],
   },
@@ -25,7 +25,7 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 20,
-        fromRight: "originVideo",
+        from: "originVideo",
       },
     ],
   },
@@ -35,7 +35,7 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 20,
-        fromRight: "originVod",
+        from: "originVod",
       },
     ],
   },
@@ -45,7 +45,7 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 20,
-        fromRight: "rowAllRights",
+        from: "rowAllRights",
       },
     ],
   },
@@ -56,8 +56,9 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 100,
-        fromReceiptRight: "originTheatricalDistributionFees",
-        to: "originTheatricalExpensesRecouped",
+        from: "originTheatrical",
+        after: "originTheatricalDistributionFees",
+        until: "originTheatricalExpensesRecouped",
       },
     ],
   },
@@ -68,8 +69,9 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 100,
-        fromReceiptRight: "originVideoDistributionFees",
-        to: "originVideoExpensesRecouped",
+        from: "originVideo",
+        after: "originVideoDistributionFees",
+        until: "originVideoExpensesRecouped",
       },
     ],
   },
@@ -80,29 +82,43 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 100,
-        fromReceiptRight: "rowAllRightsDistributionFees",
-        to: "rowExpensesRecouped",
+        from: "rowAllRights",
+        after: "rowAllRightsDistributionFees",
+        until: "rowExpensesRecouped",
       },
     ],
   },
   {
     id: "MG",
+    amount: 1500,
     rights: ["originTheatrical", "originVideo", "originVod", "rowAllRights"],
     blocks: [
       {
         percentage: 100,
-        fromEvent: "originTheatricalExpensesRecouped",
-        to: "MGRecouped",
+        from: "originTheatrical",
+        after: "originTheatricalExpenses",
+        if: "originTheatricalExpensesRecouped",
+        until: "MGRecouped",
       },
       {
         percentage: 100,
-        fromEvent: "originVideoExpensesRecouped",
-        to: "MGRecouped",
+        from: "originVideo",
+        after: "originVideoExpenses",
+        if: "originVideoExpensesRecouped",
+        until: "MGRecouped",
       },
       {
         percentage: 100,
-        fromEvent: "rowExpensesRecouped",
-        to: "MGRecouped",
+        from: "originVod",
+        after: "originVodDistributionFees",
+        until: "MGRecouped",
+      },
+      {
+        percentage: 100,
+        from: "rowAllRights",
+        after: "rowExpenses",
+        if: "rowExpensesRecouped",
+        until: "MGRecouped",
       },
     ],
   },

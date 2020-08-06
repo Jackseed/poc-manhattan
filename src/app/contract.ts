@@ -84,18 +84,18 @@ interface LongFormAgreement extends Contract {}
 
 interface ReceiptRight {
   id: string;
-  rights: string[]; // rightIds
+  rights: string[]; // rightIds / vc: mb redundant with from
   cashedIn?: number;
   amount?: number;
   min?: number; // vc: added because of expenses
   max?: number; // vc: added because of expenses
-  base?: "brut" | "net"; // vc: not sure if really necessary, from parameter could be enough
+  // vc: base has been removed for from, if and after into blocks
   blocks: {
     percentage: number;
-    fromEvent?: string; // eventId
-    fromRight?: string; // rightsId (brut)
-    fromReceiptRight?: string; // receiptRightId (net)
-    to?: string; // eventId
+    if?: string; // eventId
+    from?: string; // rightsId (brut)
+    after?: string; // receiptRightId (net)
+    until?: string; // eventId
   }[];
 }
 
@@ -158,8 +158,7 @@ interface Events {
   condition?: "union" | "intersection";
   events: {
     ref: string; // vc: receiptRightId
-    percentage?: number; // => percentage of money cashed in / amount invested
-    // percentage facultative in case of distribution fee
+    percentage: number; // => percentage of money cashed in / amount invested
   }[];
 }
 
