@@ -87,11 +87,13 @@ interface ReceiptRight {
   rights: string[]; // rightIds
   cashedIn?: number;
   amount?: number;
+  min?: number; // vc: added because of expenses
+  max?: number; // vc: added because of expenses
   base?: "brut" | "net"; // vc: not sure if really necessary, from parameter could be enough
   blocks: {
     percentage: number;
-    from?: Event | "brut";
-    to?: Event;
+    from?: string; // eventId or "brut"
+    to?: string; // eventId
   }[];
 }
 
@@ -148,13 +150,14 @@ interface Perk {
 interface Trigger {}
 
 /** Etape dans le waterfall */
-
-interface Event {
+// vc: name changed because of reserved word Event
+interface Events {
   id: string;
   condition?: "union" | "intersection";
   events: {
     ref: string; // vc: receiptRightId
-    percentage: number; // => percentage of money cashed in / amount invested
+    percentage?: number; // => percentage of money cashed in / amount invested
+    // percentage facultative in case of distribution fee
   }[];
 }
 

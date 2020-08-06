@@ -1,17 +1,42 @@
 export const ROYALTIES: ReceiptRight[] = [
   {
-    id: "OriginTheatricalExpenses",
-    rights: [
-      "originTheatrical",
-    ],
+    id: "originTheatricalExpenses",
+    rights: ["originTheatrical"],
+    amount: 1150,
     blocks: [
       {
-        percentage: 20,
+        percentage: 100,
+        from: "distributionFeeEvent",
+        to: "originTheatricalExpensesRecouped"
       },
     ],
   },
   {
-    id: "DistributionFees",
+    id: "originVideoExpenses",
+    rights: ["originVideo"],
+    amount: 137,
+    blocks: [
+      {
+        percentage: 100,
+        from: "distributionFeeEvent",
+        to: "originVideoExpensesRecouped"
+      },
+    ],
+  },
+  {
+    id: "rowExpenses",
+    rights: ["rowAllRights"],
+    amount: 56,
+    blocks: [
+      {
+        percentage: 100,
+        from: "distributionFeeEvent",
+        to: "rowExpensesRecouped"
+      },
+    ],
+  },
+  {
+    id: "distributionFees",
     rights: [
       "originTheatrical",
       "originTv",
@@ -46,12 +71,39 @@ export const ROYALTIES: ReceiptRight[] = [
   },
 ];
 
-export const EVENTS: Event[] = [
+export const EVENTS: Events[] = [
   {
-    id: "MG recouped",
+    id: "distributionFeeEvent",
     events: [
       {
-        ref,
+        ref: "distributionFees",
+      },
+    ],
+  },
+  {
+    id: "originTheatricalExpensesRecouped",
+    events: [
+      {
+        ref: "originTheatricalExpenses",
+        percentage: 100,
+      },
+    ],
+  },
+  {
+    id: "originVideoExpensesRecouped",
+    events: [
+      {
+        ref: "originVideoExpenses",
+        percentage: 100,
+      },
+    ],
+  },
+  {
+    id: "rowExpensesRecouped",
+    events: [
+      {
+        ref: "rowExpenses",
+        percentage: 100,
       },
     ],
   },
