@@ -10,7 +10,6 @@ export class ReceiptCalculationComponent implements OnInit {
   receiptRights: ReceiptRight[];
   events: Events[];
   rights: Right[];
-  receipts;
 
   constructor() {}
 
@@ -18,7 +17,14 @@ export class ReceiptCalculationComponent implements OnInit {
     this.receiptRights = ROYALTIES;
     this.events = EVENTS;
     this.rights = RIGHTS;
-    this.receipts = RECEIPTS;
+  }
+
+  public getRNPP() {
+    this.getIncome("originTheatrical", 2600);
+    this.getIncome("originTv", 600);
+    this.getIncome("originVideo", 312);
+    this.getIncome("originVod", 299);
+    this.getIncome("rowAllRights", 816);
   }
 
   public getIncome(rightId: string, receipt: number) {
@@ -56,21 +62,23 @@ export class ReceiptCalculationComponent implements OnInit {
     );
 
     // same for 3rd step
-    const thirdStepReceiptRights = receiptRights.filter((receiptRight) =>
-      receiptRight.blocks.find(
-        (block) => block.after === secondStepReceiptRights[0].id
-      )
-    );
-    console.log("third step rights: ", thirdStepReceiptRights);
+    if (secondStepReceiptRights.length > 0) {
+      const thirdStepReceiptRights = receiptRights.filter((receiptRight) =>
+        receiptRight.blocks.find(
+          (block) => block.after === secondStepReceiptRights[0].id
+        )
+      );
+      console.log("third step rights: ", thirdStepReceiptRights);
 
-    // and cash in again
-    receipt = this.cashIn(
-      2,
-      rightId,
-      secondStepReceiptRights[0].id,
-      thirdStepReceiptRights,
-      receipt
-    );
+      // and cash in again
+      receipt = this.cashIn(
+        2,
+        rightId,
+        secondStepReceiptRights[0].id,
+        thirdStepReceiptRights,
+        receipt
+      );
+    }
   }
 
   private cashIn(

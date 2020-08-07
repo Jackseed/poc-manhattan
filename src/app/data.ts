@@ -1,12 +1,4 @@
-export const RECEIPTS = {
-  origin: {
-    theatrical: 2600,
-    video: 312,
-    vod: 299,
-    tv: 716,
-  },
-  row: 700,
-};
+
 
 export const ROYALTIES: ReceiptRight[] = [
   {
@@ -23,6 +15,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTvDistributionFees",
     rights: ["originTv"],
+    cashedIn: 0,
     blocks: [
       {
         percentage: 20,
@@ -33,6 +26,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originVideoDistributionFees",
     rights: ["originVideo"],
+    cashedIn: 0,
     blocks: [
       {
         percentage: 20,
@@ -43,6 +37,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originVodDistributionFees",
     rights: ["originVod"],
+    cashedIn: 0,
     blocks: [
       {
         percentage: 20,
@@ -53,6 +48,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "rowAllRightsDistributionFees",
     rights: ["rowAllRights"],
+    cashedIn: 0,
     blocks: [
       {
         percentage: 20,
@@ -78,6 +74,7 @@ export const ROYALTIES: ReceiptRight[] = [
     id: "originVideoExpenses",
     rights: ["originVideo"],
     amount: 137,
+    cashedIn: 0,
     blocks: [
       {
         percentage: 100,
@@ -91,6 +88,7 @@ export const ROYALTIES: ReceiptRight[] = [
     id: "rowExpenses",
     rights: ["rowAllRights"],
     amount: 56,
+    cashedIn: 0,
     blocks: [
       {
         percentage: 100,
