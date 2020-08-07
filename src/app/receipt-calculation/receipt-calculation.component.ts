@@ -7,7 +7,7 @@ import { ROYALTIES, EVENTS, RIGHTS, RECEIPTS } from "../data";
   styleUrls: ["./receipt-calculation.component.scss"],
 })
 export class ReceiptCalculationComponent implements OnInit {
-  receiptRight: ReceiptRight[];
+  receiptRights: ReceiptRight[];
   events: Events[];
   rights: Right[];
   receipts;
@@ -15,7 +15,7 @@ export class ReceiptCalculationComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.receiptRight = ROYALTIES;
+    this.receiptRights = ROYALTIES;
     this.events = EVENTS;
     this.rights = RIGHTS;
     this.receipts = RECEIPTS;
@@ -24,7 +24,7 @@ export class ReceiptCalculationComponent implements OnInit {
   public getIncome(rightId: string, receipt: number) {
     const right = this.rights.find((r) => r.id === rightId);
     // get all the receipt rights concerned by this right
-    const receiptRights = this.receiptRight.filter((rr) =>
+    const receiptRights = this.receiptRights.filter((rr) =>
       rr.blocks.find((block) => block.from === rightId)
     );
     console.log(receiptRights);
@@ -54,6 +54,23 @@ export class ReceiptCalculationComponent implements OnInit {
       secondStepReceiptRights,
       receipt
     );
+
+    // same for 3rd step
+    const thirdStepReceiptRights = receiptRights.filter((receiptRight) =>
+      receiptRight.blocks.find(
+        (block) => block.after === secondStepReceiptRights[0].id
+      )
+    );
+    console.log("third step rights: ", thirdStepReceiptRights);
+
+    // and cash in again
+    receipt = this.cashIn(
+      2,
+      rightId,
+      secondStepReceiptRights[0].id,
+      thirdStepReceiptRights,
+      receipt
+    );
   }
 
   private cashIn(
@@ -67,7 +84,7 @@ export class ReceiptCalculationComponent implements OnInit {
       receiptRight.blocks.forEach((block) => {
         // same verification as before
         if (this.checkCorrectStep(step, block, from, after) && receipt > 0) {
-          const cashingRight = this.receiptRight.find(
+          const cashingRight = this.receiptRights.find(
             (rr) => rr.id === receiptRight.id
           );
           const potentialCashIn =
@@ -137,7 +154,7 @@ export class ReceiptCalculationComponent implements OnInit {
     event.events.forEach((e) => {
       // verifies that the event is a "closed" one
       if (e.ref === receiptRight.id) {
-        authorizedCashIn = e.percentage * receiptRight.amount / 100;
+        authorizedCashIn = (e.percentage * receiptRight.amount) / 100;
         console.log(
           "authorized cash in: ",
           authorizedCashIn,

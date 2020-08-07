@@ -103,6 +103,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "MG",
     amount: 1500,
+    cashedIn: 0,
     rights: ["originTheatrical", "originVideo", "originVod", "rowAllRights"],
     blocks: [
       {
