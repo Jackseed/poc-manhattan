@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ROYALTIES, EVENTS, RIGHTS, RECEIPTS } from "../data";
+import { ROYALTIES, EVENTS, RIGHTS } from "../data";
 
 @Component({
   selector: "app-receipt-calculation",
@@ -21,7 +21,7 @@ export class ReceiptCalculationComponent implements OnInit {
 
   public getRNPP() {
     this.getIncome("originTheatrical", 2600);
-    this.getIncome("originTv", 716);
+    this.getIncome("originTv", 600);
     this.getIncome("originVideo", 312.32);
     this.getIncome("originVod", 299);
     this.getIncome("rowAllRights", 816);
@@ -109,7 +109,9 @@ export class ReceiptCalculationComponent implements OnInit {
             cashIn = Math.round(potentialCashIn);
           }
           cashingRight.cashedIn = cashIn;
-          receipt - cashIn > 0 ? (receipt = receipt - cashIn) : (receipt = 0);
+          receipt - cashIn > 0
+            ? (receipt = Math.round(receipt - cashIn))
+            : (receipt = 0);
           console.log(
             "cashed in rights: ",
             cashingRight,
