@@ -36,25 +36,8 @@ export class ReceiptCalculationComponent implements OnInit {
     );
     console.log("first step: ", firstStepReceiptRights);
     // cashed in
-    firstStepReceiptRights.forEach((receiptRight) => {
-      receiptRight.blocks.forEach((block) => {
-        // same verification as before
-        if (block.from === rightId && !!!block.after && receipt > 0) {
-          const cashingRight = this.receiptRight.find(
-            (rr) => rr.id === receiptRight.id
-          );
-          cashingRight.cashedIn =
-            cashingRight.cashedIn + (receipt * block.percentage) / 100;
-          receipt = receipt - (receipt * block.percentage) / 100;
-          console.log(
-            "cashed in rights: ",
-            cashingRight,
-            "remaining receipts: ",
-            receipt
-          );
-        }
-      });
-    });
+    receipt = this.cashIn(1, rightId, false, firstStepReceiptRights, receipt);
+
     // then need to find those after
     const secondStepReceiptRights = receiptRights.filter((receiptRight) =>
       receiptRight.blocks.find(
@@ -63,14 +46,27 @@ export class ReceiptCalculationComponent implements OnInit {
     );
     console.log("second step rights: ", secondStepReceiptRights);
 
-    secondStepReceiptRights.forEach((receiptRight) => {
+    // and cash in again
+    receipt = this.cashIn(
+      2,
+      rightId,
+      firstStepReceiptRights[0].id,
+      secondStepReceiptRights,
+      receipt
+    );
+  }
+
+  private cashIn(
+    step: number,
+    from: string,
+    after: string | boolean,
+    receiptRights: ReceiptRight[],
+    receipt: number
+  ): number {
+    receiptRights.forEach((receiptRight) => {
       receiptRight.blocks.forEach((block) => {
         // same verification as before
-        if (
-          block.from === rightId &&
-          block.after === firstStepReceiptRights[0].id &&
-          receipt > 0
-        ) {
+        if (this.checkCorrectStep(step, block, from, after) && receipt > 0) {
           const cashingRight = this.receiptRight.find(
             (rr) => rr.id === receiptRight.id
           );
@@ -86,5 +82,31 @@ export class ReceiptCalculationComponent implements OnInit {
         }
       });
     });
+    return receipt;
+  }
+
+  private checkCorrectStep(
+    step: number,
+    block: {
+      percentage: number;
+      if?: string;
+      from?: string;
+      after?: string;
+      until?: string;
+    },
+    from: string,
+    after: string | boolean
+  ): boolean {
+    let isCorrect: boolean;
+    if (step === 1) {
+      block.from === from && !!block.after === after
+        ? (isCorrect = true)
+        : (isCorrect = false);
+    } else if (step === 2) {
+      block.from === from && block.after === after
+        ? (isCorrect = true)
+        : (isCorrect = false);
+    }
+    return isCorrect;
   }
 }
