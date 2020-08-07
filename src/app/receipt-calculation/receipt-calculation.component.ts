@@ -53,7 +53,7 @@ export class ReceiptCalculationComponent implements OnInit {
     );
     console.log("first step: ", firstStepReceiptRights);
     // cashed in
-    receipt = this.cashIn(1, rightId, false, firstStepReceiptRights, receipt);
+    receipt = this.cashIn(true, rightId, false, firstStepReceiptRights, receipt);
 
     // then need to find those after
     const secondStepReceiptRights = receiptRights.filter((receiptRight) =>
@@ -65,7 +65,7 @@ export class ReceiptCalculationComponent implements OnInit {
 
     // and cash in again
     receipt = this.cashIn(
-      2,
+      false,
       rightId,
       firstStepReceiptRights[0].id,
       secondStepReceiptRights,
@@ -93,7 +93,7 @@ export class ReceiptCalculationComponent implements OnInit {
   }
 
   private cashIn(
-    step: number,
+    isFirst: boolean,
     from: string,
     after: string | boolean,
     receiptRights: ReceiptRight[],
@@ -102,7 +102,7 @@ export class ReceiptCalculationComponent implements OnInit {
     receiptRights.forEach((receiptRight) => {
       receiptRight.blocks.forEach((block) => {
         // same verification as before
-        if (this.checkCorrectStep(step, block, from, after) && receipt > 0) {
+        if (this.checkCorrectStep(isFirst, block, from, after) && receipt > 0) {
           const cashingRight = this.receiptRights.find(
             (rr) => rr.id === receiptRight.id
           );
@@ -136,7 +136,7 @@ export class ReceiptCalculationComponent implements OnInit {
   }
 
   private checkCorrectStep(
-    step: number,
+    isFirst: boolean,
     block: {
       percentage: number;
       if?: string;
@@ -148,11 +148,11 @@ export class ReceiptCalculationComponent implements OnInit {
     after: string | boolean
   ): boolean {
     let isCorrect: boolean;
-    if (step === 1) {
+    if (isFirst) {
       block.from === from && !!block.after === after
         ? (isCorrect = true)
         : (isCorrect = false);
-    } else if (step === 2) {
+    } else {
       block.from === from && block.after === after
         ? (isCorrect = true)
         : (isCorrect = false);
@@ -189,7 +189,7 @@ export class ReceiptCalculationComponent implements OnInit {
     return cashIn;
   }
 
-  private CNCFinancialSupport(rightsId: string, receipt: number): number {
+  private CNCFinancialSupport(rightsId: string, receipt: number) {
     const ticketPrice = 6.01;
     const TSA = 0.1072;
     const firstStep = 1500;
@@ -229,7 +229,7 @@ export class ReceiptCalculationComponent implements OnInit {
     this.totalCNCSupport =
       this.theatricalCNCSupport + this.videoCNCSupport + this.tvCNCSupport;
     console.log("Total CNC support: ", this.totalCNCSupport);
-/*     this.increaseSupport = this.totalCNCSupport * increaseRate;
+    /*     this.increaseSupport = this.totalCNCSupport * increaseRate;
     console.log("increase support: ", this.increaseSupport); */
   }
 }
