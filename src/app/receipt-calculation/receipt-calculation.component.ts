@@ -21,8 +21,8 @@ export class ReceiptCalculationComponent implements OnInit {
 
   public getRNPP() {
     this.getIncome("originTheatrical", 2600);
-    this.getIncome("originTv", 600);
-    this.getIncome("originVideo", 312);
+    this.getIncome("originTv", 716);
+    this.getIncome("originVideo", 312.32);
     this.getIncome("originVod", 299);
     this.getIncome("rowAllRights", 816);
   }
@@ -102,13 +102,11 @@ export class ReceiptCalculationComponent implements OnInit {
             const untilEvent = this.events.find(
               (event) => event.id === block.until
             );
-            cashIn = this.getUntilCashIn(
-              cashingRight,
-              untilEvent,
-              potentialCashIn
+            cashIn = Math.round(
+              this.getUntilCashIn(cashingRight, untilEvent, potentialCashIn)
             );
           } else {
-            cashIn = potentialCashIn;
+            cashIn = Math.round(potentialCashIn);
           }
           cashingRight.cashedIn = cashIn;
           receipt = receipt - cashIn;
