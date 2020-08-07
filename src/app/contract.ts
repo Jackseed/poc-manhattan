@@ -84,6 +84,7 @@ interface LongFormAgreement extends Contract {}
 
 interface ReceiptRight {
   id: string;
+  title?: string;
   rights: string[]; // rightIds / vc: mb redundant with from
   cashedIn?: number;
   amount?: number;
