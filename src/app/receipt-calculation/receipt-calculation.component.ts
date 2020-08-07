@@ -109,7 +109,7 @@ export class ReceiptCalculationComponent implements OnInit {
             cashIn = Math.round(potentialCashIn);
           }
           cashingRight.cashedIn = cashIn;
-          receipt = receipt - cashIn;
+          receipt - cashIn > 0 ? (receipt = receipt - cashIn) : (receipt = 0);
           console.log(
             "cashed in rights: ",
             cashingRight,
