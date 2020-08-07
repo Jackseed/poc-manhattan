@@ -10,6 +10,11 @@ export class ReceiptCalculationComponent implements OnInit {
   receiptRights: ReceiptRight[];
   events: Events[];
   rights: Right[];
+  theatricalCNCSupport: number;
+  videoCNCSupport: number;
+  tvCNCSupport: number;
+  increaseSupport: number;
+  totalCNCSupport: number;
 
   constructor() {}
 
@@ -25,9 +30,15 @@ export class ReceiptCalculationComponent implements OnInit {
     this.getIncome("originVideo", 312.32);
     this.getIncome("originVod", 299);
     this.getIncome("rowAllRights", 816);
+    this.getCNCSupport();
+  }
+  private getCNCSupport() {
+    this.CNCFinancialSupport("originTheatrical", 1000);
+    this.CNCFinancialSupport("originTv", 600);
+    this.CNCFinancialSupport("originVideo", 312.32);
   }
 
-  public getIncome(rightId: string, receipt: number) {
+  private getIncome(rightId: string, receipt: number) {
     const right = this.rights.find((r) => r.id === rightId);
     // get all the receipt rights concerned by this right
     const receiptRights = this.receiptRights.filter((rr) =>
@@ -178,8 +189,7 @@ export class ReceiptCalculationComponent implements OnInit {
     return cashIn;
   }
 
-  public CNCFinancialSupport(rightsId: string, receipt: number): number {
-    let support: number;
+  private CNCFinancialSupport(rightsId: string, receipt: number): number {
     const ticketPrice = 6.01;
     const TSA = 0.1072;
     const firstStep = 1500;
@@ -188,6 +198,7 @@ export class ReceiptCalculationComponent implements OnInit {
     const secondRate = 0.95;
     const thirdRate = 0.1;
     const videoRate = 0.045;
+    const increaseRate = 0.015;
 
     if (rightsId === "originTheatrical") {
       if (receipt > secondStep) {
@@ -196,22 +207,29 @@ export class ReceiptCalculationComponent implements OnInit {
           (secondStep - firstStep) * secondRate * ticketPrice * TSA;
         const thirdStepSupport =
           (receipt - secondStep) * thirdRate * ticketPrice * TSA;
-        support = firstStepSupport + secondStepSupport + thirdStepSupport;
+        this.theatricalCNCSupport =
+          firstStepSupport + secondStepSupport + thirdStepSupport;
       } else if (receipt > firstStep) {
         const firstStepSupport = firstStep * firstRate * ticketPrice * TSA;
         const secondStepSupport =
           (receipt - firstStep) * secondRate * ticketPrice * TSA;
-        support = firstStepSupport + secondStepSupport;
+        this.theatricalCNCSupport = firstStepSupport + secondStepSupport;
       } else {
-        support = receipt * firstRate * ticketPrice * TSA;
+        this.theatricalCNCSupport = receipt * firstRate * ticketPrice * TSA;
       }
-      support = Math.round(support * 0.93);
+      this.theatricalCNCSupport = Math.round(this.theatricalCNCSupport * 0.93);
+      console.log("Theatrical support: ", this.theatricalCNCSupport);
     } else if (rightsId === "originVideo") {
-      support = Math.round(receipt * videoRate);
+      this.videoCNCSupport = Math.round(receipt * videoRate);
+      console.log("Video support: ", this.videoCNCSupport);
     } else if (rightsId === "originTv") {
-      support = 90;
+      this.tvCNCSupport = 90;
+      console.log("TV support: ", this.tvCNCSupport);
     }
-    console.log(support);
-    return support;
+    this.totalCNCSupport =
+      this.theatricalCNCSupport + this.videoCNCSupport + this.tvCNCSupport;
+    console.log("Total CNC support: ", this.totalCNCSupport);
+/*     this.increaseSupport = this.totalCNCSupport * increaseRate;
+    console.log("increase support: ", this.increaseSupport); */
   }
 }
