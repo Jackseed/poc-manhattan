@@ -33,9 +33,9 @@ export class ReceiptCalculationComponent implements OnInit {
     this.getCNCSupport();
   }
   private getCNCSupport() {
-    this.CNCFinancialSupport("originTheatrical", 1000);
-    this.CNCFinancialSupport("originTv", 600);
-    this.CNCFinancialSupport("originVideo", 312.32);
+    this.getCNCFinancialSupport("originTheatrical", 1000);
+    this.getCNCFinancialSupport("originTv", 600);
+    this.getCNCFinancialSupport("originVideo", 312.32);
   }
 
   // after is a receiptRightId, it enables this function to be recursive
@@ -61,7 +61,7 @@ export class ReceiptCalculationComponent implements OnInit {
         receipt
       );
     }
-    // if there is still receipts, the function is called again with current receipt right id as after
+    // if there is still receipts, the function is called again with current receiptRightId as after
     if (remainingReceipt > 0) {
       this.getIncome(rightId, remainingReceipt, activatedReceiptRights[0].id);
     }
@@ -141,7 +141,7 @@ export class ReceiptCalculationComponent implements OnInit {
     return cashIn;
   }
 
-  private CNCFinancialSupport(rightsId: string, receipt: number) {
+  private getCNCFinancialSupport(rightsId: string, receipt: number) {
     const ticketPrice = 6.01;
     const TSA = 0.1072;
     const firstStep = 1500;
@@ -184,4 +184,15 @@ export class ReceiptCalculationComponent implements OnInit {
     /*     this.increaseSupport = this.totalCNCSupport * increaseRate;
     console.log("increase support: ", this.increaseSupport); */
   }
+
+  public splitCNCFinancialSupport() {
+    this.getIncome(
+      "theatricalSupport",
+      this.theatricalCNCSupport,
+      "theatricalSupport"
+    );
+    this.getIncome("videoSupport", this.videoCNCSupport, "videoSupport");
+    this.getIncome("tvSupport", this.tvCNCSupport, "tvSupport");
+  }
 }
+

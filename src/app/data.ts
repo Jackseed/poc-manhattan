@@ -2,7 +2,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTheatricalDistributionFees",
     title: "Theatrical distribution fees",
-    rights: ["originTheatrical"],
     cashedIn: 0,
     blocks: [
       {
@@ -15,7 +14,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTvDistributionFees",
     title: "TV distribution fees",
-    rights: ["originTv"],
     cashedIn: 0,
     blocks: [
       {
@@ -28,7 +26,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originVideoDistributionFees",
     title: "Video distribution fees",
-    rights: ["originVideo"],
     cashedIn: 0,
     blocks: [
       {
@@ -41,7 +38,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originVodDistributionFees",
     title: "VOD distribution fees",
-    rights: ["originVod"],
     cashedIn: 0,
     blocks: [
       {
@@ -54,7 +50,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "rowAllRightsDistributionFees",
     title: "Export distribution fees",
-    rights: ["rowAllRights"],
     cashedIn: 0,
     blocks: [
       {
@@ -67,7 +62,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTheatricalExpenses",
     title: "Theatrical expenses",
-    rights: ["originTheatrical"],
     amount: 1150,
     cashedIn: 0,
     blocks: [
@@ -82,7 +76,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originVideoExpenses",
     title: "Video expenses",
-    rights: ["originVideo"],
     amount: 137,
     cashedIn: 0,
     blocks: [
@@ -97,7 +90,6 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "rowExpenses",
     title: "Export expenses",
-    rights: ["rowAllRights"],
     amount: 56,
     cashedIn: 0,
     blocks: [
@@ -114,7 +106,6 @@ export const ROYALTIES: ReceiptRight[] = [
     title: "MG",
     amount: 0,
     cashedIn: 0,
-    rights: ["originTheatrical", "originVideo", "originVod", "rowAllRights"],
     blocks: [
       {
         percentage: 100,
@@ -197,6 +188,18 @@ export const ROYALTIES: ReceiptRight[] = [
       },
     ],
   },
+  {
+    id: "PatheCNCSupport",
+    title: "CNC financial support - Pathé's share",
+    cashedIn: 0,
+    blocks: [
+      {
+        percentage: 20,
+        from: "originTheatrical",
+        after: "originTheatrical",
+      },
+    ],
+  }
 ];
 
 export const EVENTS: Events[] = [
