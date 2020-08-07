@@ -177,4 +177,35 @@ export class ReceiptCalculationComponent implements OnInit {
     console.log(cashIn);
     return cashIn;
   }
+
+  public CNCFinancialSupport(rightsId: string, receipt: number): number {
+    let support: number;
+    if (rightsId === "originTheatrical") {
+      const ticketPrice = 6.01;
+      const TSA = 0.1072;
+      const firstStep = 1500;
+      const firstRate = 1.25;
+      const secondStep = 5000;
+      const secondRate = 0.95;
+      const thirdRate = 0.1;
+
+      if (receipt > secondStep) {
+        const firstStepSupport = firstStep * firstRate * ticketPrice * TSA;
+        const secondStepSupport =
+          (secondStep - firstStep) * secondRate * ticketPrice * TSA;
+        const thirdStepSupport =
+          (receipt - secondStep) * thirdRate * ticketPrice * TSA;
+        support = firstStepSupport + secondStepSupport + thirdStepSupport;
+      } else if (receipt > firstStep) {
+        const firstStepSupport = firstStep * firstRate * ticketPrice * TSA;
+        const secondStepSupport =
+          (receipt - firstStep) * secondRate * ticketPrice * TSA;
+        support = firstStepSupport + secondStepSupport;
+      } else {
+        support = receipt * firstRate * ticketPrice * TSA;
+      }
+    }
+    support = Math.round(support * 0.93);
+    return support;
+  }
 }
