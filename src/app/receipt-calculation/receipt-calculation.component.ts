@@ -180,15 +180,16 @@ export class ReceiptCalculationComponent implements OnInit {
 
   public CNCFinancialSupport(rightsId: string, receipt: number): number {
     let support: number;
-    if (rightsId === "originTheatrical") {
-      const ticketPrice = 6.01;
-      const TSA = 0.1072;
-      const firstStep = 1500;
-      const firstRate = 1.25;
-      const secondStep = 5000;
-      const secondRate = 0.95;
-      const thirdRate = 0.1;
+    const ticketPrice = 6.01;
+    const TSA = 0.1072;
+    const firstStep = 1500;
+    const firstRate = 1.25;
+    const secondStep = 5000;
+    const secondRate = 0.95;
+    const thirdRate = 0.1;
+    const videoRate = 0.045;
 
+    if (rightsId === "originTheatrical") {
       if (receipt > secondStep) {
         const firstStepSupport = firstStep * firstRate * ticketPrice * TSA;
         const secondStepSupport =
@@ -204,8 +205,13 @@ export class ReceiptCalculationComponent implements OnInit {
       } else {
         support = receipt * firstRate * ticketPrice * TSA;
       }
+      support = Math.round(support * 0.93);
+    } else if (rightsId === "originVideo") {
+      support = Math.round(receipt * videoRate);
+    } else if (rightsId === "originTv") {
+      support = 90;
     }
-    support = Math.round(support * 0.93);
+    console.log(support);
     return support;
   }
 }
