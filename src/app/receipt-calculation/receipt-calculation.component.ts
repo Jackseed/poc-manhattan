@@ -21,7 +21,7 @@ export class ReceiptCalculationComponent implements OnInit {
     this.receipts = RECEIPTS;
   }
 
-  public calculateRNPP(rightId: string, receipt: number) {
+  public getIncome(rightId: string, receipt: number) {
     const right = this.rights.find((r) => r.id === rightId);
     // get all the receipt rights concerned by this right
     const receiptRights = this.receiptRight.filter((rr) =>
@@ -70,9 +70,23 @@ export class ReceiptCalculationComponent implements OnInit {
           const cashingRight = this.receiptRight.find(
             (rr) => rr.id === receiptRight.id
           );
-          cashingRight.cashedIn =
+          const potentialCashIn =
             cashingRight.cashedIn + receipt * (block.percentage / 100);
-          receipt = receipt - (receipt * block.percentage) / 100;
+          let cashIn: number;
+          if (block.until) {
+            const untilEvent = this.events.find(
+              (event) => event.id === block.until
+            );
+            cashIn = this.getUntilCashIn(
+              cashingRight,
+              untilEvent,
+              potentialCashIn
+            );
+          } else {
+            cashIn = potentialCashIn;
+          }
+          cashingRight.cashedIn = cashIn;
+          receipt = receipt - cashIn;
           console.log(
             "cashed in rights: ",
             cashingRight,
@@ -108,5 +122,34 @@ export class ReceiptCalculationComponent implements OnInit {
         : (isCorrect = false);
     }
     return isCorrect;
+  }
+
+  // this function works only for "closed" events (related to themselves)
+  // TODO: generalize it
+  private getUntilCashIn(
+    receiptRight: ReceiptRight,
+    event: Events,
+    potentialCashIn: number
+  ): number {
+    let authorizedCashIn: number;
+    let cashIn: number;
+
+    event.events.forEach((e) => {
+      // verifies that the event is a "closed" one
+      if (e.ref === receiptRight.id) {
+        authorizedCashIn = e.percentage * receiptRight.amount / 100;
+        console.log(
+          "authorized cash in: ",
+          authorizedCashIn,
+          "potential cash in: ",
+          potentialCashIn
+        );
+        potentialCashIn > authorizedCashIn
+          ? (cashIn = authorizedCashIn)
+          : (cashIn = potentialCashIn);
+      }
+    });
+    console.log(cashIn);
+    return cashIn;
   }
 }
