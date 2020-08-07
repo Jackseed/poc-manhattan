@@ -140,6 +140,48 @@ export const ROYALTIES: ReceiptRight[] = [
       },
     ],
   }, */
+  {
+    id: "RNPPPathé",
+    amount: 0,
+    cashedIn: 0,
+    rights: [
+      "originTheatrical",
+      "originTv",
+      "originVideo",
+      "originVod",
+      "rowAllRights",
+    ],
+    blocks: [
+      {
+        percentage: 38,
+        from: "originTheatrical",
+        after: "originTheatricalExpenses",
+        if: "originTheatricalExpensesRecouped",
+      },
+      {
+        percentage: 35,
+        from: "originTv",
+        after: "originTvDistributionFees",
+      },
+      {
+        percentage: 38,
+        from: "originVideo",
+        after: "originVideoExpenses",
+        if: "originVideoExpensesRecouped",
+      },
+      {
+        percentage: 38,
+        from: "originVod",
+        after: "originVodDistributionFees",
+      },
+      {
+        percentage: 38,
+        from: "rowAllRights",
+        after: "rowExpenses",
+        if: "rowExpensesRecouped",
+      },
+    ],
+  },
 ];
 
 export const EVENTS: Events[] = [
