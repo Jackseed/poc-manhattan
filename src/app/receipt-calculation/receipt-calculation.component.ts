@@ -25,11 +25,11 @@ export class ReceiptCalculationComponent implements OnInit {
   }
 
   public getRNPP() {
-    this.getIncome("originTheatrical", 2600);
-    this.getIncome("originTv", 600);
-    this.getIncome("originVideo", 312.32);
-    this.getIncome("originVod", 299);
-    this.getIncome("rowAllRights", 816);
+    this.getIncome("originTheatrical", 2600, "originTheatrical");
+    this.getIncome("originTv", 600, "originTv");
+    this.getIncome("originVideo", 312.32, "originVideo");
+    this.getIncome("originVod", 299, "originVod");
+    this.getIncome("rowAllRights", 816, "rowAllRights");
     this.getCNCSupport();
   }
   private getCNCSupport() {
@@ -38,126 +38,84 @@ export class ReceiptCalculationComponent implements OnInit {
     this.CNCFinancialSupport("originVideo", 312.32);
   }
 
-  private getIncome(rightId: string, receipt: number) {
-    const right = this.rights.find((r) => r.id === rightId);
+  // after is a receiptRightId, it enables this function to be recursive
+  private getIncome(rightId: string, receipt: number, after: string) {
+    let remainingReceipt: number;
+
     // get all the receipt rights concerned by this right
     const receiptRights = this.receiptRights.filter((rr) =>
       rr.blocks.find((block) => block.from === rightId)
     );
-    console.log(receiptRights);
 
-    // first, need to find receipts rights based on brut receipts
-    // (i.e they come after nothing)
-    const firstStepReceiptRights = receiptRights.filter((receiptRight) =>
-      receiptRight.blocks.find((block) => !!!block.after)
-    );
-    console.log("first step: ", firstStepReceiptRights);
-    // cashed in
-    receipt = this.cashIn(true, rightId, false, firstStepReceiptRights, receipt);
-
-    // then need to find those after
-    const secondStepReceiptRights = receiptRights.filter((receiptRight) =>
-      receiptRight.blocks.find(
-        (block) => block.after === firstStepReceiptRights[0].id
-      )
-    );
-    console.log("second step rights: ", secondStepReceiptRights);
-
-    // and cash in again
-    receipt = this.cashIn(
-      false,
-      rightId,
-      firstStepReceiptRights[0].id,
-      secondStepReceiptRights,
-      receipt
+    // then find receipt rights that activates with this "after"
+    const activatedReceiptRights = receiptRights.filter((receiptRight) =>
+      receiptRight.blocks.find((block) => block.after === after)
     );
 
-    // same for 3rd step
-    if (secondStepReceiptRights.length > 0) {
-      const thirdStepReceiptRights = receiptRights.filter((receiptRight) =>
-        receiptRight.blocks.find(
-          (block) => block.after === secondStepReceiptRights[0].id
-        )
-      );
-      console.log("third step rights: ", thirdStepReceiptRights);
-
-      // and cash in again
-      receipt = this.cashIn(
-        2,
+    if (activatedReceiptRights.length > 0) {
+      // activate these rights by cashing in the incoming receipts
+      remainingReceipt = this.cashIn(
         rightId,
-        secondStepReceiptRights[0].id,
-        thirdStepReceiptRights,
+        after,
+        activatedReceiptRights,
         receipt
       );
+    }
+    // if there is still receipts, the function is called again with current receipt right id as after
+    if (remainingReceipt > 0) {
+      this.getIncome(rightId, remainingReceipt, activatedReceiptRights[0].id);
     }
   }
 
   private cashIn(
-    isFirst: boolean,
     from: string,
-    after: string | boolean,
-    receiptRights: ReceiptRight[],
+    after: string,
+    cashingInRights: ReceiptRight[],
     receipt: number
   ): number {
-    receiptRights.forEach((receiptRight) => {
-      receiptRight.blocks.forEach((block) => {
-        // same verification as before
-        if (this.checkCorrectStep(isFirst, block, from, after) && receipt > 0) {
-          const cashingRight = this.receiptRights.find(
-            (rr) => rr.id === receiptRight.id
-          );
+    let cashIn: number;
+    let remainingReceipts: number;
+
+    cashingInRights.forEach((cashingInRight) => {
+      cashingInRight.blocks.forEach((block) => {
+        // verify if the block is concerned by the cash in
+        if (block.from === from && block.after === after) {
+          // calculates the money that should be cashed in
           const potentialCashIn =
-            cashingRight.cashedIn + receipt * (block.percentage / 100);
-          let cashIn: number;
+            cashingInRight.cashedIn + receipt * (block.percentage / 100);
+
+          // check if there is a condition
           if (block.until) {
+            // find the corresponding event
             const untilEvent = this.events.find(
               (event) => event.id === block.until
             );
+            // check event impact
             cashIn = Math.round(
-              this.getUntilCashIn(cashingRight, untilEvent, potentialCashIn)
+              this.getUntilCashIn(cashingInRight, untilEvent, potentialCashIn)
             );
           } else {
             cashIn = Math.round(potentialCashIn);
           }
-          cashingRight.cashedIn = cashIn;
+
+          // cash in the according amount
+          cashingInRight.cashedIn = cashIn;
+
+          // reduce the remaining receipts
           receipt - cashIn > 0
-            ? (receipt = Math.round(receipt - cashIn))
-            : (receipt = 0);
+            ? (remainingReceipts = Math.round(receipt - cashIn))
+            : (remainingReceipts = 0);
+
           console.log(
             "cashed in rights: ",
-            cashingRight,
+            cashingInRight,
             "remaining receipts: ",
-            receipt
+            remainingReceipts
           );
         }
       });
     });
-    return receipt;
-  }
-
-  private checkCorrectStep(
-    isFirst: boolean,
-    block: {
-      percentage: number;
-      if?: string;
-      from?: string;
-      after?: string;
-      until?: string;
-    },
-    from: string,
-    after: string | boolean
-  ): boolean {
-    let isCorrect: boolean;
-    if (isFirst) {
-      block.from === from && !!block.after === after
-        ? (isCorrect = true)
-        : (isCorrect = false);
-    } else {
-      block.from === from && block.after === after
-        ? (isCorrect = true)
-        : (isCorrect = false);
-    }
-    return isCorrect;
+    return remainingReceipts;
   }
 
   // this function works only for "closed" events (related to themselves)
@@ -174,18 +132,12 @@ export class ReceiptCalculationComponent implements OnInit {
       // verifies that the event is a "closed" one
       if (e.ref === receiptRight.id) {
         authorizedCashIn = (e.percentage * receiptRight.amount) / 100;
-        console.log(
-          "authorized cash in: ",
-          authorizedCashIn,
-          "potential cash in: ",
-          potentialCashIn
-        );
+
         potentialCashIn > authorizedCashIn
           ? (cashIn = authorizedCashIn)
           : (cashIn = potentialCashIn);
       }
     });
-    console.log(cashIn);
     return cashIn;
   }
 

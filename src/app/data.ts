@@ -8,6 +8,7 @@ export const ROYALTIES: ReceiptRight[] = [
       {
         percentage: 20,
         from: "originTheatrical",
+        after: "originTheatrical",
       },
     ],
   },
@@ -20,6 +21,7 @@ export const ROYALTIES: ReceiptRight[] = [
       {
         percentage: 20,
         from: "originTv",
+        after: "originTv",
       },
     ],
   },
@@ -32,6 +34,7 @@ export const ROYALTIES: ReceiptRight[] = [
       {
         percentage: 20,
         from: "originVideo",
+        after: "originVideo",
       },
     ],
   },
@@ -44,6 +47,7 @@ export const ROYALTIES: ReceiptRight[] = [
       {
         percentage: 20,
         from: "originVod",
+        after: "originVod",
       },
     ],
   },
@@ -56,6 +60,7 @@ export const ROYALTIES: ReceiptRight[] = [
       {
         percentage: 20,
         from: "rowAllRights",
+        after: "rowAllRights",
       },
     ],
   },
