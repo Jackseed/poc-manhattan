@@ -79,6 +79,7 @@ export class ReceiptCalculationComponent implements OnInit {
     let remainingReceipts = receipts;
 
     cashingInRights.forEach((cashingInRight) => {
+      console.log("cashing in new right: ", cashingInRight);
       cashingInRight.blocks.forEach((block) => {
         // verify if the block is concerned by the cash in & if there is still money to split
         if (
@@ -86,11 +87,9 @@ export class ReceiptCalculationComponent implements OnInit {
           block.after === after &&
           remainingReceipts > 0
         ) {
-          console.log("cashing in ", remainingReceipts);
+          console.log("cashing in ", remainingReceipts, "block: ", block);
           // calculates the money that should be cashed in
-          const potentialCashIn =
-            cashingInRight.cashedIn +
-            remainingReceipts * (block.percentage / 100);
+          const potentialCashIn = remainingReceipts * (block.percentage / 100);
           cashIn = Math.round(potentialCashIn);
 
           // check if there are conditions
@@ -101,7 +100,6 @@ export class ReceiptCalculationComponent implements OnInit {
             if (!this.isIfValid(ifEvent)) {
               return;
             }
-            cashIn = Math.round(potentialCashIn);
           } else if (block.until) {
             // find the corresponding event
             const untilEvent = this.events.find(
@@ -114,7 +112,7 @@ export class ReceiptCalculationComponent implements OnInit {
           }
 
           // cash in the according amount
-          cashingInRight.cashedIn = cashIn;
+          cashingInRight.cashedIn = cashingInRight.cashedIn + cashIn;
 
           // reduce the remaining receipts
           remainingReceipts - cashIn > 0
@@ -148,13 +146,18 @@ export class ReceiptCalculationComponent implements OnInit {
     let cashIn: number;
 
     event.events.forEach((e) => {
-      // verifies that the event is a "closed" one
+      // verify that the event is a "closed" one
       if (e.ref === receiptRight.id) {
         authorizedCashIn = (e.percentage * receiptRight.amount) / 100;
-
-        potentialCashIn > authorizedCashIn
-          ? (cashIn = authorizedCashIn)
-          : (cashIn = potentialCashIn);
+        // verify if the max has already been reached
+        if (receiptRight.cashedIn >= authorizedCashIn) {
+          cashIn = 0;
+          // otherwise cash in the minimum between authorized and potential
+        } else {
+          receiptRight.cashedIn + potentialCashIn > authorizedCashIn
+            ? (cashIn = authorizedCashIn - receiptRight.cashedIn)
+            : (cashIn = potentialCashIn);
+        }
       }
     });
     return cashIn;
