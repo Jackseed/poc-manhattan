@@ -55,6 +55,7 @@ export class ReceiptCalculationComponent implements OnInit {
 
     if (activatedReceiptRights.length > 0) {
       // activate these rights by cashing in the incoming receipts
+      console.log("launching cashin with ", activatedReceiptRights);
       remainingReceipt = this.cashIn(
         rightId,
         after,
@@ -72,18 +73,24 @@ export class ReceiptCalculationComponent implements OnInit {
     from: string,
     after: string,
     cashingInRights: ReceiptRight[],
-    receipt: number
+    receipts: number
   ): number {
     let cashIn: number;
-    let remainingReceipts: number;
+    let remainingReceipts = receipts;
 
     cashingInRights.forEach((cashingInRight) => {
       cashingInRight.blocks.forEach((block) => {
-        // verify if the block is concerned by the cash in
-        if (block.from === from && block.after === after) {
+        // verify if the block is concerned by the cash in & if there is still money to split
+        if (
+          block.from === from &&
+          block.after === after &&
+          remainingReceipts > 0
+        ) {
+          console.log("cashing in ", remainingReceipts);
           // calculates the money that should be cashed in
           const potentialCashIn =
-            cashingInRight.cashedIn + receipt * (block.percentage / 100);
+            cashingInRight.cashedIn +
+            remainingReceipts * (block.percentage / 100);
           cashIn = Math.round(potentialCashIn);
 
           // check if there are conditions
@@ -110,13 +117,11 @@ export class ReceiptCalculationComponent implements OnInit {
           cashingInRight.cashedIn = cashIn;
 
           // reduce the remaining receipts
-          receipt - cashIn > 0
-            ? (remainingReceipts = Math.round(receipt - cashIn))
+          remainingReceipts - cashIn > 0
+            ? (remainingReceipts = Math.round(remainingReceipts - cashIn))
             : (remainingReceipts = 0);
 
           console.log(
-            "incoming receipts: ",
-            receipts,
             "cashed in rights: ",
             cashingInRight,
             "from: ",
