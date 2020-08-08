@@ -101,7 +101,7 @@ export const ROYALTIES: ReceiptRight[] = [
       },
     ],
   },
- /*  {
+  /*  {
     id: "MG",
     title: "MG",
     amount: 0,
@@ -189,8 +189,8 @@ export const ROYALTIES: ReceiptRight[] = [
     ],
   },
   {
-    id: "prodSupport",
-    title: "CNC financial support - Executive producer's share",
+    id: "prodSupport100",
+    title: "CNC financial support - Executive producer's share 100",
     cashedIn: 0,
     amount: 150,
     blocks: [
@@ -212,23 +212,28 @@ export const ROYALTIES: ReceiptRight[] = [
         after: "tvSupport",
         until: "prodSupportRecouped",
       },
+    ],
+  },
+  {
+    id: "prodSupport50",
+    title: "CNC financial support - Executive producer's share 50",
+    cashedIn: 0,
+    amount: 0,
+    blocks: [
       {
         percentage: 50,
-        if: "prodSupportRecouped",
         from: "theatricalSupport",
-        after: "theatricalSupport",
+        after: "prodSupport100",
       },
       {
         percentage: 50,
-        if: "prodSupportRecouped",
         from: "videoSupport",
-        after: "videoSupport",
+        after: "prodSupport100",
       },
       {
         percentage: 50,
-        if: "prodSupportRecouped",
         from: "tvSupport",
-        after: "tvSupport",
+        after: "prodSupport100",
       },
     ],
   },
@@ -239,21 +244,18 @@ export const ROYALTIES: ReceiptRight[] = [
     blocks: [
       {
         percentage: 33.6,
-        if: "prodSupportRecouped",
         from: "theatricalSupport",
-        after: "theatricalSupport",
+        after: "prodSupport100",
       },
       {
         percentage: 33.6,
-        if: "prodSupportRecouped",
         from: "videoSupport",
-        after: "videoSupport",
+        after: "prodSupport100",
       },
       {
         percentage: 33.6,
-        if: "prodSupportRecouped",
         from: "tvSupport",
-        after: "tvSupport",
+        after: "prodSupport100",
       },
     ],
   },
@@ -300,7 +302,7 @@ export const EVENTS: Events[] = [
     id: "prodSupportRecouped",
     events: [
       {
-        ref: "prodSupport",
+        ref: "prodSupport100",
         percentage: 100,
       },
     ],
