@@ -101,7 +101,7 @@ export const ROYALTIES: ReceiptRight[] = [
       },
     ],
   },
-  {
+ /*  {
     id: "MG",
     title: "MG",
     amount: 0,
@@ -135,7 +135,7 @@ export const ROYALTIES: ReceiptRight[] = [
         until: "MGRecouped",
       },
     ],
-  },
+  }, */
   /*   {
     id: "originTheatricalReceipt",
     rights: ["originTheatrical"],
@@ -189,17 +189,74 @@ export const ROYALTIES: ReceiptRight[] = [
     ],
   },
   {
+    id: "prodSupport",
+    title: "CNC financial support - Executive producer's share",
+    cashedIn: 0,
+    amount: 150,
+    blocks: [
+      {
+        percentage: 100,
+        from: "theatricalSupport",
+        after: "theatricalSupport",
+        until: "prodSupportRecouped",
+      },
+      {
+        percentage: 100,
+        from: "videoSupport",
+        after: "videoSupport",
+        until: "prodSupportRecouped",
+      },
+      {
+        percentage: 100,
+        from: "tvSupport",
+        after: "tvSupport",
+        until: "prodSupportRecouped",
+      },
+      {
+        percentage: 50,
+        if: "prodSupportRecouped",
+        from: "theatricalSupport",
+        after: "theatricalSupport",
+      },
+      {
+        percentage: 50,
+        if: "prodSupportRecouped",
+        from: "videoSupport",
+        after: "videoSupport",
+      },
+      {
+        percentage: 50,
+        if: "prodSupportRecouped",
+        from: "tvSupport",
+        after: "tvSupport",
+      },
+    ],
+  },
+  {
     id: "PatheCNCSupport",
     title: "CNC financial support - Pathé's share",
     cashedIn: 0,
     blocks: [
       {
-        percentage: 20,
-        from: "originTheatrical",
-        after: "originTheatrical",
+        percentage: 33.6,
+        if: "prodSupportRecouped",
+        from: "theatricalSupport",
+        after: "theatricalSupport",
+      },
+      {
+        percentage: 33.6,
+        if: "prodSupportRecouped",
+        from: "videoSupport",
+        after: "videoSupport",
+      },
+      {
+        percentage: 33.6,
+        if: "prodSupportRecouped",
+        from: "tvSupport",
+        after: "tvSupport",
       },
     ],
-  }
+  },
 ];
 
 export const EVENTS: Events[] = [
@@ -235,6 +292,15 @@ export const EVENTS: Events[] = [
     events: [
       {
         ref: "MG",
+        percentage: 100,
+      },
+    ],
+  },
+  {
+    id: "prodSupportRecouped",
+    events: [
+      {
+        ref: "prodSupport",
         percentage: 100,
       },
     ],

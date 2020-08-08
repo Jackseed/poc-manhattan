@@ -10,11 +10,11 @@ export class ReceiptCalculationComponent implements OnInit {
   receiptRights: ReceiptRight[];
   events: Events[];
   rights: Right[];
-  theatricalCNCSupport: number;
-  videoCNCSupport: number;
-  tvCNCSupport: number;
-  increaseSupport: number;
-  totalCNCSupport: number;
+  theatricalCNCSupport = 0;
+  videoCNCSupport = 0;
+  tvCNCSupport = 0;
+  increaseSupport = 0;
+  totalCNCSupport = 0;
 
   constructor() {}
 
@@ -36,6 +36,7 @@ export class ReceiptCalculationComponent implements OnInit {
     this.getCNCFinancialSupport("originTheatrical", 1000);
     this.getCNCFinancialSupport("originTv", 600);
     this.getCNCFinancialSupport("originVideo", 312.32);
+    this.splitCNCFinancialSupport();
   }
 
   // after is a receiptRightId, it enables this function to be recursive
@@ -83,9 +84,18 @@ export class ReceiptCalculationComponent implements OnInit {
           // calculates the money that should be cashed in
           const potentialCashIn =
             cashingInRight.cashedIn + receipt * (block.percentage / 100);
+          cashIn = Math.round(potentialCashIn);
 
-          // check if there is a condition
-          if (block.until) {
+          // check if there are conditions
+          if (block.if) {
+            // find the corresponding event
+            const ifEvent = this.events.find((event) => event.id === block.if);
+            // if the condition is invalid, return
+            if (!this.isIfValid(ifEvent)) {
+              return;
+            }
+            cashIn = Math.round(potentialCashIn);
+          } else if (block.until) {
             // find the corresponding event
             const untilEvent = this.events.find(
               (event) => event.id === block.until
@@ -94,8 +104,6 @@ export class ReceiptCalculationComponent implements OnInit {
             cashIn = Math.round(
               this.getUntilCashIn(cashingInRight, untilEvent, potentialCashIn)
             );
-          } else {
-            cashIn = Math.round(potentialCashIn);
           }
 
           // cash in the according amount
@@ -107,8 +115,14 @@ export class ReceiptCalculationComponent implements OnInit {
             : (remainingReceipts = 0);
 
           console.log(
+            "incoming receipts: ",
+            receipts,
             "cashed in rights: ",
             cashingInRight,
+            "from: ",
+            from,
+            "after",
+            after,
             "remaining receipts: ",
             remainingReceipts
           );
@@ -139,6 +153,22 @@ export class ReceiptCalculationComponent implements OnInit {
       }
     });
     return cashIn;
+  }
+
+  // Check if the if condition is valid or not
+  // TODO: use condition intersection / union
+  public isIfValid(event: Events): boolean {
+    let isValid: boolean;
+    event.events.forEach((e) => {
+      // get the corresponding receipt right
+      const receiptRight = this.receiptRights.find((rr) => rr.id === e.ref);
+      receiptRight.cashedIn / receiptRight.amount >= e.percentage / 100
+        ? (isValid = true)
+        : (isValid = false);
+    });
+    console.log(isValid, event);
+
+    return isValid;
   }
 
   private getCNCFinancialSupport(rightsId: string, receipt: number) {
@@ -181,11 +211,12 @@ export class ReceiptCalculationComponent implements OnInit {
     this.totalCNCSupport =
       this.theatricalCNCSupport + this.videoCNCSupport + this.tvCNCSupport;
     console.log("Total CNC support: ", this.totalCNCSupport);
+
     /*     this.increaseSupport = this.totalCNCSupport * increaseRate;
     console.log("increase support: ", this.increaseSupport); */
   }
 
-  public splitCNCFinancialSupport() {
+  private splitCNCFinancialSupport() {
     this.getIncome(
       "theatricalSupport",
       this.theatricalCNCSupport,
@@ -195,4 +226,3 @@ export class ReceiptCalculationComponent implements OnInit {
     this.getIncome("tvSupport", this.tvCNCSupport, "tvSupport");
   }
 }
-
