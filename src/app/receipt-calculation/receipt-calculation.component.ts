@@ -14,6 +14,7 @@ export class ReceiptCalculationComponent implements OnInit {
   videoCNCSupport = 0;
   tvCNCSupport = 0;
   increaseSupport = 0;
+  increaseRate = 0.15;
   totalCNCSupport = 0;
   receiptTypes = [
     "Distribution fees",
@@ -191,7 +192,6 @@ export class ReceiptCalculationComponent implements OnInit {
     const secondRate = 0.95;
     const thirdRate = 0.1;
     const videoRate = 0.045;
-    const increaseRate = 0.015;
 
     if (rightsId === "originTheatrical") {
       if (receipt > secondStep) {
@@ -235,5 +235,11 @@ export class ReceiptCalculationComponent implements OnInit {
     );
     this.getIncome("videoSupport", this.videoCNCSupport, "videoSupport");
     this.getIncome("tvSupport", this.tvCNCSupport, "tvSupport");
+    this.getIncreasedFinancialSupport();
+  }
+
+  private getIncreasedFinancialSupport() {
+    const patheSupportReceiptRight = this.receiptRights.find(receiptRight => receiptRight.id === "PatheCNCSupport");
+    this.increaseSupport = patheSupportReceiptRight.cashedIn * this.increaseRate;
   }
 }
