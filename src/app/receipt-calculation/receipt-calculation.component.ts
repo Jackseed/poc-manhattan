@@ -15,6 +15,12 @@ export class ReceiptCalculationComponent implements OnInit {
   tvCNCSupport = 0;
   increaseSupport = 0;
   totalCNCSupport = 0;
+  receiptTypes = [
+    "Distribution fees",
+    "Expenses",
+    "Net receipts repartition",
+    "CNC financial support",
+  ];
 
   constructor() {}
 

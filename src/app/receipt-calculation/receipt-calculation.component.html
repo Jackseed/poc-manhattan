@@ -1,4 +1,10 @@
-<button (click)="getRNPP()">Calculate RNPP</button>
-<div *ngFor="let receiptRight of receiptRights">
-  {{ receiptRight.title }} cashed in: {{ receiptRight.cashedIn }}
+<button (click)="getRNPP()">Calculate split</button>
+
+<div *ngFor="let receiptType of receiptTypes">
+  <h2>{{ receiptType }}</h2>
+  <div *ngFor="let receiptRight of receiptRights">
+    <div *ngIf="receiptRight.type === receiptType">
+      <p>{{ receiptRight.title }} cashed in: {{ receiptRight.cashedIn }}</p>
+    </div>
+  </div>
 </div>

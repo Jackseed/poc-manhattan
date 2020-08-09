@@ -1,7 +1,8 @@
 export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTheatricalDistributionFees",
-    title: "Theatrical distribution fees",
+    title: "Theatrical",
+    type: "Distribution fees",
     cashedIn: 0,
     blocks: [
       {
@@ -13,7 +14,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "originTvDistributionFees",
-    title: "TV distribution fees",
+    title: "TV",
+    type: "Distribution fees",
     cashedIn: 0,
     blocks: [
       {
@@ -25,7 +27,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "originVideoDistributionFees",
-    title: "Video distribution fees",
+    title: "Video",
+    type: "Distribution fees",
     cashedIn: 0,
     blocks: [
       {
@@ -37,7 +40,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "originVodDistributionFees",
-    title: "VOD distribution fees",
+    title: "VOD",
+    type: "Distribution fees",
     cashedIn: 0,
     blocks: [
       {
@@ -49,7 +53,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "rowAllRightsDistributionFees",
-    title: "Export distribution fees",
+    title: "Export",
+    type: "Distribution fees",
     cashedIn: 0,
     blocks: [
       {
@@ -61,7 +66,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "originTheatricalExpenses",
-    title: "Theatrical expenses",
+    title: "Theatrical",
+    type: "Expenses",
     amount: 1150,
     cashedIn: 0,
     blocks: [
@@ -75,7 +81,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "originVideoExpenses",
-    title: "Video expenses",
+    title: "Video",
+    type: "Expenses",
     amount: 137,
     cashedIn: 0,
     blocks: [
@@ -89,7 +96,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "rowExpenses",
-    title: "Export expenses",
+    title: "Export",
+    type: "Expenses",
     amount: 56,
     cashedIn: 0,
     blocks: [
@@ -147,7 +155,8 @@ export const ROYALTIES: ReceiptRight[] = [
   }, */
   {
     id: "RNPPPathe",
-    title: "RNPP Pathé",
+    title: "Pathé's share",
+    type: "Net receipts repartition",
     amount: 0,
     cashedIn: 0,
     rights: [
@@ -190,7 +199,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "prodSupport100",
-    title: "CNC financial support - Executive producer's share 100",
+    title: "Executive producer's share (100%)",
+    type: "CNC financial support",
     cashedIn: 0,
     amount: 150,
     blocks: [
@@ -216,7 +226,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "prodSupport50",
-    title: "CNC financial support - Executive producer's share 50",
+    title: "Executive producer's share (50%)",
+    type: "CNC financial support",
     cashedIn: 0,
     amount: 0,
     blocks: [
@@ -239,7 +250,8 @@ export const ROYALTIES: ReceiptRight[] = [
   },
   {
     id: "PatheCNCSupport",
-    title: "CNC financial support - Pathé's share",
+    title: "Pathé's share",
+    type: "CNC financial support",
     cashedIn: 0,
     blocks: [
       {
