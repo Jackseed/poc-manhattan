@@ -1,11 +1,13 @@
-<div *ngFor="let receiptType of receiptTypes">
-  <h2>{{ receiptType }}</h2>
-  <div *ngFor="let receiptRight of receiptRights">
-    <div *ngIf="receiptRight.type === receiptType">
-      <p>{{ receiptRight.title }} cashed in: {{ receiptRight.cashedIn }}</p>
+<div class="container">
+  <div *ngFor="let receiptType of receiptTypes">
+    <h2>{{ receiptType }}</h2>
+    <div *ngFor="let receiptRight of receiptRights">
+      <div *ngIf="receiptRight.type === receiptType">
+        <p>{{ receiptRight.title }}: {{ receiptRight.cashedIn }}</p>
+      </div>
     </div>
   </div>
+  <button mat-raised-button color="primary" (click)="getRNPP()">
+    Generate receipts
+  </button>
 </div>
-<button mat-raised-button color="primary" (click)="getRNPP()">
-  Generate receipts
-</button>
