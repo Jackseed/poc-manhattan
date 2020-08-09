@@ -154,6 +154,69 @@ export const ROYALTIES: ReceiptRight[] = [
     ],
   }, */
   {
+    id: "RNPPAyd",
+    title: "Right holders' share",
+    type: "Net receipts repartition",
+    amount: 0,
+    cashedIn: 0,
+    rights: ["originTheatrical", "originVideo", "originVod", "rowAllRights"],
+    blocks: [
+      {
+        percentage: 62,
+        from: "originTheatrical",
+        after: "originTheatricalExpenses",
+        if: "originTheatricalExpensesRecouped",
+      },
+      {
+        percentage: 62,
+        from: "originVideo",
+        after: "originVideoExpenses",
+        if: "originVideoExpensesRecouped",
+      },
+      {
+        percentage: 62,
+        from: "originVod",
+        after: "originVodDistributionFees",
+      },
+      {
+        percentage: 62,
+        from: "rowAllRights",
+        after: "rowExpenses",
+        if: "rowExpensesRecouped",
+      },
+    ],
+  },
+  {
+    id: "RNPPAydTv",
+    title: "Right holders' share / TV",
+    type: "Net receipts repartition",
+    amount: 0,
+    cashedIn: 0,
+    rights: ["originTv"],
+    blocks: [
+      {
+        percentage: 57,
+        from: "originTv",
+        after: "originTvDistributionFees",
+      },
+    ],
+  },
+  {
+    id: "TVBroadcasterRNPP",
+    title: "TV broadcaster's share / TV",
+    type: "Net receipts repartition",
+    amount: 0,
+    cashedIn: 0,
+    rights: ["originTv"],
+    blocks: [
+      {
+        percentage: 8,
+        from: "originTv",
+        after: "originTvDistributionFees",
+      },
+    ],
+  },
+  {
     id: "RNPPPathe",
     title: "Pathé's share",
     type: "Net receipts repartition",
@@ -194,6 +257,54 @@ export const ROYALTIES: ReceiptRight[] = [
         from: "rowAllRights",
         after: "rowExpenses",
         if: "rowExpensesRecouped",
+      },
+    ],
+  },
+   {
+    id: "TvBroadcasterSupport",
+    title: "TV broadcaster's share",
+    type: "CNC financial support",
+    cashedIn: 0,
+    amount: 0,
+    blocks: [
+      {
+        percentage: 10,
+        from: "theatricalSupport",
+        after: "prodSupport100",
+      },
+      {
+        percentage: 10,
+        from: "videoSupport",
+        after: "prodSupport100",
+      },
+      {
+        percentage: 10,
+        from: "tvSupport",
+        after: "prodSupport100",
+      },
+    ],
+  },
+  {
+    id: "equitySupport",
+    title: "Equity fund's share",
+    type: "CNC financial support",
+    cashedIn: 0,
+    amount: 0,
+    blocks: [
+      {
+        percentage: 6.4,
+        from: "theatricalSupport",
+        after: "prodSupport100",
+      },
+      {
+        percentage: 6.4,
+        from: "videoSupport",
+        after: "prodSupport100",
+      },
+      {
+        percentage: 6.4,
+        from: "tvSupport",
+        after: "prodSupport100",
       },
     ],
   },
