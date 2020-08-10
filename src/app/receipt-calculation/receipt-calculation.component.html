@@ -1,14 +1,50 @@
 <div class="container">
+  <div>
+    <h2>Receipt Hypothesis</h2>
+    <h3>Theatrical</h3>
+    <p>Brut receipts: {{ theatricalReceipts }}</p>
+    <p>CNC distribution support: {{ distributionTheatricalSupport }}</p>
+    <p>Expenses: {{ theatricalExpenses }}</p>
+    <p class="bold">
+      Margin before distribution fees:
+      {{ netTheatricalMargin }}
+    </p>
+    <h3>Video</h3>
+    <p>Turnover: {{ videoReceipts }}</p>
+    <p>CNC distribution support: {{ distributionVideoSupport }}</p>
+    <p>Expenses: {{ videoExpenses }}</p>
+    <p class="bold">
+      Margin before distribution fees:
+      {{ netVideoMargin }}
+    </p>
+    <h3>VOD</h3>
+    <p>Margin: {{ vodReceipts }}</p>
+    <h3>TV France</h3>
+    <p>FTV: {{ tvReceipts }}</p>
+    <h3>Export</h3>
+    <p>Brut receipts: {{ exportReceipts }}</p>
+    <p>Expenses: {{ exportExpenses }}</p>
+    <p class="bold">
+      Margin before distribution fees:
+      {{ netExportMargin }}
+    </p>
+    <h4>Total marging before distribution fees: {{ totalMargin }}</h4>
+  </div>
+  <button mat-raised-button color="primary" (click)="getRNPP()">
+    Generate receipts
+  </button>
+  <h2>Receipts repartition</h2>
   <div *ngFor="let receiptType of receiptTypes">
-    <h2>{{ receiptType }}</h2>
+    <h3>{{ receiptType }}</h3>
     <div *ngFor="let receiptRight of receiptRights">
       <div *ngIf="receiptRight.type === receiptType">
         <p>{{ receiptRight.title }}: {{ receiptRight.cashedIn }}</p>
       </div>
     </div>
   </div>
-  <p>Pathé increased CNC support: {{increaseSupport}}</p>
-  <button mat-raised-button color="primary" (click)="getRNPP()">
-    Generate receipts
-  </button>
+  <p>Pathé increased CNC support: {{ increaseSupport }}</p>
+  <h2>Sum up</h2>
+  <p>Total marging before distribution fees: {{ totalMargin }}</p>
+  <p>Net Pathé support: {{ getPatheSupport() }}</p>
+  <p>Right holders' share: {{ totalAydShare }}</p>
 </div>

@@ -16,9 +16,35 @@ export class ReceiptCalculationComponent implements OnInit {
   increaseSupport = 0;
   increaseRate = 0.15;
   totalCNCSupport = 0;
+  theatricalReceipts = 2600;
+  theatricalExpenses = 1150;
+  // TODO: calculate this
+  distributionTheatricalSupport = 354.45;
+  netTheatricalMargin =
+    this.theatricalReceipts +
+    this.distributionTheatricalSupport -
+    this.theatricalExpenses;
+  tvReceipts = 600;
+  videoReceipts = 312.32;
+  distributionVideoSupport = 14.06;
+  videoExpenses = 137;
+  netVideoMargin =
+    this.videoReceipts + this.distributionVideoSupport - this.videoExpenses;
+  vodReceipts = 299;
+  exportReceipts = 816;
+  exportExpenses = 56;
+  netExportMargin = this.exportReceipts - this.exportExpenses;
+  totalMargin =
+    this.netTheatricalMargin +
+    this.netVideoMargin +
+    this.vodReceipts +
+    this.tvReceipts +
+    this.netExportMargin;
+  totalAydShare: number;
+
   receiptTypes = [
     "Distribution fees",
-    "Expenses",
+    "Expenses recouped",
     "Net receipts repartition",
     "CNC financial support",
   ];
@@ -32,12 +58,17 @@ export class ReceiptCalculationComponent implements OnInit {
   }
 
   public getRNPP() {
-    this.getIncome("originTheatrical", 2600, "originTheatrical");
-    this.getIncome("originTv", 600, "originTv");
-    this.getIncome("originVideo", 312.32, "originVideo");
-    this.getIncome("originVod", 299, "originVod");
-    this.getIncome("rowAllRights", 816, "rowAllRights");
+    this.getIncome(
+      "originTheatrical",
+      this.theatricalReceipts,
+      "originTheatrical"
+    );
+    this.getIncome("originTv", this.tvReceipts, "originTv");
+    this.getIncome("originVideo", this.videoReceipts, "originVideo");
+    this.getIncome("originVod", this.vodReceipts, "originVod");
+    this.getIncome("rowAllRights", this.exportReceipts, "rowAllRights");
     this.getCNCSupport();
+    this.getTotalAydShareReceipts();
   }
   private getCNCSupport() {
     this.getCNCFinancialSupport("originTheatrical", 1000);
@@ -93,7 +124,7 @@ export class ReceiptCalculationComponent implements OnInit {
           console.log("cashing in ", receipts, "block: ", block);
           // calculates the money that should be cashed in
           const potentialCashIn = receipts * (block.percentage / 100);
-          cashIn = Math.round(potentialCashIn);
+          cashIn = potentialCashIn;
 
           // check if there are conditions
           if (block.if) {
@@ -109,8 +140,10 @@ export class ReceiptCalculationComponent implements OnInit {
               (event) => event.id === block.until
             );
             // check event impact
-            cashIn = Math.round(
-              this.getUntilCashIn(cashingInRight, untilEvent, potentialCashIn)
+            cashIn = this.getUntilCashIn(
+              cashingInRight,
+              untilEvent,
+              potentialCashIn
             );
           }
 
@@ -119,7 +152,7 @@ export class ReceiptCalculationComponent implements OnInit {
 
           // reduce the remaining receipts
           receipts - cashIn > 0
-            ? (remainingReceipts = Math.round(receipts - cashIn))
+            ? (remainingReceipts = receipts - cashIn)
             : (remainingReceipts = 0);
 
           console.log(
@@ -173,7 +206,7 @@ export class ReceiptCalculationComponent implements OnInit {
     let isValid: boolean;
     event.events.forEach((e) => {
       // get the corresponding receipt right
-      const receiptRight = this.receiptRights.find((rr) => rr.id === e.ref);
+      const receiptRight = this.getReceiptRightById(e.ref);
       receiptRight.cashedIn / receiptRight.amount >= e.percentage / 100
         ? (isValid = true)
         : (isValid = false);
@@ -210,10 +243,10 @@ export class ReceiptCalculationComponent implements OnInit {
       } else {
         this.theatricalCNCSupport = receipt * firstRate * ticketPrice * TSA;
       }
-      this.theatricalCNCSupport = Math.round(this.theatricalCNCSupport * 0.93);
+      this.theatricalCNCSupport = this.theatricalCNCSupport * 0.93;
       console.log("Theatrical support: ", this.theatricalCNCSupport);
     } else if (rightsId === "originVideo") {
-      this.videoCNCSupport = Math.round(receipt * videoRate);
+      this.videoCNCSupport = receipt * videoRate;
       console.log("Video support: ", this.videoCNCSupport);
     } else if (rightsId === "originTv") {
       this.tvCNCSupport = 90;
@@ -221,10 +254,6 @@ export class ReceiptCalculationComponent implements OnInit {
     }
     this.totalCNCSupport =
       this.theatricalCNCSupport + this.videoCNCSupport + this.tvCNCSupport;
-    console.log("Total CNC support: ", this.totalCNCSupport);
-
-    /*     this.increaseSupport = this.totalCNCSupport * increaseRate;
-    console.log("increase support: ", this.increaseSupport); */
   }
 
   private splitCNCFinancialSupport() {
@@ -239,7 +268,30 @@ export class ReceiptCalculationComponent implements OnInit {
   }
 
   private getIncreasedFinancialSupport() {
-    const patheSupportReceiptRight = this.receiptRights.find(receiptRight => receiptRight.id === "PatheCNCSupport");
-    this.increaseSupport = patheSupportReceiptRight.cashedIn * this.increaseRate;
+    const patheSupportReceiptRight = this.receiptRights.find(
+      (receiptRight) => receiptRight.id === "PatheCNCSupport"
+    );
+    this.increaseSupport =
+      patheSupportReceiptRight.cashedIn * this.increaseRate;
+  }
+
+  private getTotalAydShareReceipts() {
+    const ayd = this.getReceiptRightById("RNPPAyd").cashedIn;
+    const aydTv = this.getReceiptRightById("RNPPAydTv").cashedIn;
+    const aydTvBrodcaster = this.getReceiptRightById("TVBroadcasterRNPP")
+      .cashedIn;
+    this.totalAydShare = ayd + aydTv + aydTvBrodcaster;
+  }
+
+  public getPatheSupport(): number {
+    const patheSupport = this.getReceiptRightById("PatheCNCSupport").cashedIn;
+    return patheSupport + this.increaseSupport;
+  }
+
+  private getReceiptRightById(receiptRightId: string): ReceiptRight {
+    const receiptRight = this.receiptRights.find(
+      (rr) => rr.id === receiptRightId
+    );
+    return receiptRight;
   }
 }

@@ -67,7 +67,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originTheatricalExpenses",
     title: "Theatrical",
-    type: "Expenses",
+    type: "Expenses recouped",
     amount: 1150,
     cashedIn: 0,
     blocks: [
@@ -82,7 +82,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "originVideoExpenses",
     title: "Video",
-    type: "Expenses",
+    type: "Expenses recouped",
     amount: 137,
     cashedIn: 0,
     blocks: [
@@ -97,7 +97,7 @@ export const ROYALTIES: ReceiptRight[] = [
   {
     id: "rowExpenses",
     title: "Export",
-    type: "Expenses",
+    type: "Expenses recouped",
     amount: 56,
     cashedIn: 0,
     blocks: [
