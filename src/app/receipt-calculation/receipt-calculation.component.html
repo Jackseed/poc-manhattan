@@ -43,8 +43,12 @@
     </div>
   </div>
   <p>Pathé increased CNC support: {{ increaseSupport }}</p>
+  <h2>Partner shares</h2>
+  <p>Partner's margin before distribution fees: {{ partnerMarginShare }}</p>
+  <p>Partner's CNC support share: {{ this.partnerSupportShare }}</p>
+  <p>Partner's participation to right holders' share: {{ partnerAydShare }}</p>
   <h2>Sum up</h2>
-  <p>Total marging before distribution fees: {{ totalMargin }}</p>
-  <p>Net Pathé support: {{ getPatheSupport() }}</p>
+  <p>Total margin before distribution fees: {{ totalMargin }}</p>
+  <p>Net Pathé CNC support: {{ patheTotalSupport + increaseSupport }}</p>
   <p>Right holders' share: {{ totalAydShare }}</p>
 </div>

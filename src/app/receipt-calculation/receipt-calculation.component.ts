@@ -40,7 +40,12 @@ export class ReceiptCalculationComponent implements OnInit {
     this.vodReceipts +
     this.tvReceipts +
     this.netExportMargin;
-  totalAydShare: number;
+  totalAydShare = 0;
+  patheTotalSupport = 0;
+  // partner shares
+  partnerMarginShare = 0;
+  partnerSupportShare = 0;
+  partnerAydShare = 0;
 
   receiptTypes = [
     "Distribution fees",
@@ -69,6 +74,8 @@ export class ReceiptCalculationComponent implements OnInit {
     this.getIncome("rowAllRights", this.exportReceipts, "rowAllRights");
     this.getCNCSupport();
     this.getTotalAydShareReceipts();
+    this.getPatheSupport();
+    this.getPartnerShares();
   }
   private getCNCSupport() {
     this.getCNCFinancialSupport("originTheatrical", 1000);
@@ -283,9 +290,16 @@ export class ReceiptCalculationComponent implements OnInit {
     this.totalAydShare = ayd + aydTv + aydTvBrodcaster;
   }
 
-  public getPatheSupport(): number {
-    const patheSupport = this.getReceiptRightById("PatheCNCSupport").cashedIn;
-    return patheSupport + this.increaseSupport;
+  private getPatheSupport() {
+    this.patheTotalSupport = this.getReceiptRightById(
+      "PatheCNCSupport"
+    ).cashedIn;
+  }
+
+  private getPartnerShares() {
+    this.partnerMarginShare = this.totalMargin / 2;
+    this.partnerSupportShare = this.patheTotalSupport / 2;
+    this.partnerAydShare = this.totalAydShare / 2;
   }
 
   private getReceiptRightById(receiptRightId: string): ReceiptRight {
