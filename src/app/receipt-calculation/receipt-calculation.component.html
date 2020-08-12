@@ -1,54 +1,95 @@
-<div class="container">
-  <div>
-    <h2>Receipt Hypothesis</h2>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Receipt Hypothesis</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <h3>Theatrical</h3>
-    <p>Brut receipts: {{ theatricalReceipts }}</p>
-    <p>CNC distribution support: {{ distributionTheatricalSupport }}</p>
-    <p>Expenses: {{ theatricalExpenses }}</p>
-    <p class="bold">
+    <p>Brut receipts: {{ theatricalReceipts | number: "1.0-0" }}</p>
+    <p>
+      CNC distribution support:
+      {{ distributionTheatricalSupport | number: "1.0-0" }}
+    </p>
+    <p>Expenses: {{ theatricalExpenses | number: "1.0-0" }}</p>
+    <p>
       Margin before distribution fees:
-      {{ netTheatricalMargin }}
+      {{ netTheatricalMargin | number: "1.0-0" }}
     </p>
     <h3>Video</h3>
-    <p>Turnover: {{ videoReceipts }}</p>
-    <p>CNC distribution support: {{ distributionVideoSupport }}</p>
-    <p>Expenses: {{ videoExpenses }}</p>
-    <p class="bold">
+    <p>Turnover: {{ videoReceipts | number: "1.0-0" }}</p>
+    <p>
+      CNC distribution support:
+      {{ distributionVideoSupport | number: "1.0-0" }}
+    </p>
+    <p>Expenses: {{ videoExpenses | number: "1.0-0" }}</p>
+    <p>
       Margin before distribution fees:
-      {{ netVideoMargin }}
+      {{ netVideoMargin | number: "1.0-0" }}
     </p>
     <h3>VOD</h3>
-    <p>Margin: {{ vodReceipts }}</p>
+    <p>Margin: {{ vodReceipts | number: "1.0-0" }}</p>
     <h3>TV France</h3>
-    <p>FTV: {{ tvReceipts }}</p>
+    <p>FTV: {{ tvReceipts | number: "1.0-0" }}</p>
     <h3>Export</h3>
-    <p>Brut receipts: {{ exportReceipts }}</p>
-    <p>Expenses: {{ exportExpenses }}</p>
-    <p class="bold">
+    <p>Brut receipts: {{ exportReceipts | number: "1.0-0" }}</p>
+    <p>Expenses: {{ exportExpenses | number: "1.0-0" }}</p>
+    <p>
       Margin before distribution fees:
-      {{ netExportMargin }}
+      {{ netExportMargin | number: "1.0-0" }}
     </p>
-    <h4>Total marging before distribution fees: {{ totalMargin }}</h4>
-  </div>
-  <button mat-raised-button color="primary" (click)="getRNPP()">
-    Generate receipts
-  </button>
-  <h2>Receipts repartition</h2>
-  <div *ngFor="let receiptType of receiptTypes">
-    <h3>{{ receiptType }}</h3>
-    <div *ngFor="let receiptRight of receiptRights">
-      <div *ngIf="receiptRight.type === receiptType">
-        <p>{{ receiptRight.title }}: {{ receiptRight.cashedIn }}</p>
+    <h3>
+      Total marging before distribution fees:
+      {{ totalMargin | number: "1.0-0" }}
+    </h3>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary" (click)="getRNPP()">
+      Generate receipts
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Receipts repartition</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngFor="let receiptType of receiptTypes">
+      <h3>{{ receiptType }}</h3>
+      <div *ngFor="let receiptRight of receiptRights">
+        <div *ngIf="receiptRight.type === receiptType">
+          <p>
+            {{ receiptRight.title }}:
+            {{ receiptRight.cashedIn | number: "1.0-0" }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <p>Pathé increased CNC support: {{ increaseSupport }}</p>
-  <h2>Partner shares</h2>
-  <p>Partner's margin before distribution fees: {{ partnerMarginShare }}</p>
-  <p>Partner's CNC support share: {{ this.partnerSupportShare }}</p>
-  <p>Partner's participation to right holders' share: {{ partnerAydShare }}</p>
-  <h2>Sum up</h2>
-  <p>Total margin before distribution fees: {{ totalMargin }}</p>
-  <p>Net Pathé CNC support: {{ patheTotalSupport + increaseSupport }}</p>
-  <p>Right holders' share: {{ totalAydShare }}</p>
-</div>
+    <p>Pathé increased CNC support: {{ increaseSupport | number: "1.0-0" }}</p>
+    <h2>Partner shares</h2>
+    <p>
+      Partner's margin before distribution fees:
+      {{ partnerMarginShare | number: "1.0-0" }}
+    </p>
+    <p>
+      Partner's CNC support share:
+      {{ this.partnerSupportShare | number: "1.0-0" }}
+    </p>
+    <p>
+      Partner's participation to right holders' share:
+      {{ partnerAydShare | number: "1.0-0" }}
+    </p>
+  </mat-card-content></mat-card
+>
+<mat-card>
+  <mat-card-header> <mat-card-title>Sum up </mat-card-title></mat-card-header>
+  <mat-card-content>
+    <p>
+      Total margin before distribution fees: {{ totalMargin | number: "1.0-0" }}
+    </p>
+    <p>
+      Net Pathé CNC support:
+      {{ patheTotalSupport + increaseSupport | number: "1.0-0" }}
+    </p>
+    <p>Right holders' share: {{ totalAydShare | number: "1.0-0" }}</p>
+  </mat-card-content>
+</mat-card>
