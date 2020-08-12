@@ -141,11 +141,9 @@ export class ReceiptCalculationComponent implements OnInit {
     let remainingReceipts: number;
 
     cashingInRights.forEach((cashingInRight) => {
-      console.log("cashing in new right: ", cashingInRight);
       cashingInRight.blocks.forEach((block) => {
         // verify if the block is concerned by the cash in & if there is still money to split
         if (block.from === from && block.after === after) {
-          console.log("cashing in ", receipts, "block: ", block);
           // calculates the money that should be cashed in
           const potentialCashIn = receipts * (block.percentage / 100);
           cashIn = potentialCashIn;
@@ -180,6 +178,8 @@ export class ReceiptCalculationComponent implements OnInit {
             : (remainingReceipts = 0);
 
           console.log(
+            "cashing in: ",
+            receipts,
             "cashed in rights: ",
             cashingInRight,
             "from: ",
@@ -220,7 +220,6 @@ export class ReceiptCalculationComponent implements OnInit {
         }
       }
     });
-    console.log(cashIn);
     return cashIn;
   }
 
@@ -235,8 +234,6 @@ export class ReceiptCalculationComponent implements OnInit {
         ? (isValid = true)
         : (isValid = false);
     });
-    console.log(isValid, event);
-
     return isValid;
   }
 

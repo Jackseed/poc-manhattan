@@ -67,12 +67,12 @@
       </mat-card-content>
     </mat-card>
     <mat-divider></mat-divider>
-    <h3 class="total">
+    <h3 class="total mat-subheading-2">
       Total marging before distribution fees:
       {{ totalMargin | number: "1.0-0" }}
     </h3>
   </mat-card-content>
-  <mat-card-actions align="end">
+  <mat-card-actions align="center">
     <button mat-raised-button color="primary" (click)="getRNPP()">
       Generate receipts
     </button>
@@ -84,42 +84,57 @@
     <mat-card-title>Receipts repartition</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let receiptType of receiptTypes">
-      <h3>{{ receiptType }}</h3>
-      <div *ngFor="let receiptRight of receiptRights">
-        <div *ngIf="receiptRight.type === receiptType">
+    <mat-card *ngFor="let receiptType of receiptTypes">
+      <mat-card-header>
+        <mat-card-title>{{ receiptType }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let receiptRight of receiptRights">
+          <div *ngIf="receiptRight.type === receiptType">
+            <p>
+              {{ receiptRight.title }}:
+              {{ receiptRight.cashedIn | number: "1.0-0" }}
+            </p>
+          </div>
+        </div>
+        <div *ngIf="receiptType === 'CNC financial support'">
           <p>
-            {{ receiptRight.title }}:
-            {{ receiptRight.cashedIn | number: "1.0-0" }}
+            Pathé increased CNC support:
+            {{ increaseSupport | number: "1.0-0" }}
           </p>
         </div>
-      </div>
-    </div>
-    <p>Pathé increased CNC support: {{ increaseSupport | number: "1.0-0" }}</p>
-    <h3>Partner's shares</h3>
-    <p>
-      Partner's margin before distribution fees:
-      {{ partnerMarginShare | number: "1.0-0" }}
-    </p>
-    <p>
-      Partner's CNC support share:
-      {{ this.partnerSupportShare | number: "1.0-0" }}
-    </p>
-    <p>
-      Partner's participation to right holders' share:
-      {{ partnerAydShare | number: "1.0-0" }}
-    </p>
-    <p>
-      Partner's investment:
-      {{ partnerInvestment | number: "1.0-0" }}
-    </p>
-    <p>
-      Net Partner's margin:
-      {{ partnerMargin | number: "1.0-0" }}
-    </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Partner's shares</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Partner's margin before distribution fees:
+          {{ partnerMarginShare | number: "1.0-0" }}
+        </p>
+        <p>
+          Partner's CNC support share:
+          {{ this.partnerSupportShare | number: "1.0-0" }}
+        </p>
+        <p>
+          Partner's participation to right holders' share:
+          {{ partnerAydShare | number: "1.0-0" }}
+        </p>
+        <p>
+          Partner's investment:
+          {{ partnerInvestment | number: "1.0-0" }}
+        </p>
+        <p>
+          Net Partner's margin:
+          {{ partnerMargin | number: "1.0-0" }}
+        </p>
+      </mat-card-content>
+    </mat-card>
   </mat-card-content></mat-card
 >
-<mat-card>
+<mat-card id="sum-up">
   <mat-card-header> <mat-card-title>Sum up </mat-card-title></mat-card-header>
   <mat-card-content>
     <p>
@@ -132,7 +147,7 @@
     <p>Right holders' share: {{ aydAndPartnerShare | number: "1.0-0" }}</p>
     <p>Pathé investment: {{ patheInvestment | number: "1.0-0" }}</p>
     <mat-divider></mat-divider>
-    <h3 class="total">
+    <h3 class="total mat-subheading-2">
       Net Pathé's margin:
       {{ patheTotalMargin | number: "1.0-0" }}
     </h3>
