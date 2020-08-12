@@ -3,39 +3,69 @@
     <mat-card-title>Receipt Hypothesis</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <h3>Theatrical</h3>
-    <p>Brut receipts: {{ theatricalReceipts | number: "1.0-0" }}</p>
-    <p>
-      CNC distribution support:
-      {{ distributionTheatricalSupport | number: "1.0-0" }}
-    </p>
-    <p>Expenses: {{ theatricalExpenses | number: "1.0-0" }}</p>
-    <p>
-      Margin before distribution fees:
-      {{ netTheatricalMargin | number: "1.0-0" }}
-    </p>
-    <h3>Video</h3>
-    <p>Turnover: {{ videoReceipts | number: "1.0-0" }}</p>
-    <p>
-      CNC distribution support:
-      {{ distributionVideoSupport | number: "1.0-0" }}
-    </p>
-    <p>Expenses: {{ videoExpenses | number: "1.0-0" }}</p>
-    <p>
-      Margin before distribution fees:
-      {{ netVideoMargin | number: "1.0-0" }}
-    </p>
-    <h3>VOD</h3>
-    <p>Margin: {{ vodReceipts | number: "1.0-0" }}</p>
-    <h3>TV France</h3>
-    <p>FTV: {{ tvReceipts | number: "1.0-0" }}</p>
-    <h3>Export</h3>
-    <p>Brut receipts: {{ exportReceipts | number: "1.0-0" }}</p>
-    <p>Expenses: {{ exportExpenses | number: "1.0-0" }}</p>
-    <p>
-      Margin before distribution fees:
-      {{ netExportMargin | number: "1.0-0" }}
-    </p>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Theatrical</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Brut receipts: {{ theatricalReceipts | number: "1.0-0" }}</p>
+        <p>
+          CNC distribution support:
+          {{ distributionTheatricalSupport | number: "1.0-0" }}
+        </p>
+        <p>Expenses: {{ theatricalExpenses | number: "1.0-0" }}</p>
+        <p>
+          Margin before distribution fees:
+          {{ netTheatricalMargin | number: "1.0-0" }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Video</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Turnover: {{ videoReceipts | number: "1.0-0" }}</p>
+        <p>
+          CNC distribution support:
+          {{ distributionVideoSupport | number: "1.0-0" }}
+        </p>
+        <p>Expenses: {{ videoExpenses | number: "1.0-0" }}</p>
+        <p>
+          Margin before distribution fees:
+          {{ netVideoMargin | number: "1.0-0" }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>VOD</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Margin: {{ vodReceipts | number: "1.0-0" }}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>TV France</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>FTV: {{ tvReceipts | number: "1.0-0" }}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Export</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Brut receipts: {{ exportReceipts | number: "1.0-0" }}</p>
+        <p>Expenses: {{ exportExpenses | number: "1.0-0" }}</p>
+        <p>
+          Margin before distribution fees:
+          {{ netExportMargin | number: "1.0-0" }}
+        </p>
+      </mat-card-content>
+    </mat-card>
     <mat-divider></mat-divider>
     <h3 class="total">
       Total marging before distribution fees:
