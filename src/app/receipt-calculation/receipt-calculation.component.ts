@@ -10,12 +10,21 @@ export class ReceiptCalculationComponent implements OnInit {
   receiptRights: ReceiptRight[];
   events: Events[];
   rights: Right[];
+
+  // Financing variables
+  patheInvestment = 1500;
+  partnerRatio = 0.5;
+  partnerInvestment = this.patheInvestment * this.partnerRatio;
+
+  // CNC Support
   theatricalCNCSupport = 0;
   videoCNCSupport = 0;
   tvCNCSupport = 0;
   increaseSupport = 0;
   increaseRate = 0.15;
   totalCNCSupport = 0;
+
+  // Receipt & expenses
   theatricalReceipts = 2600;
   theatricalExpenses = 1150;
   // TODO: calculate this
@@ -40,12 +49,18 @@ export class ReceiptCalculationComponent implements OnInit {
     this.vodReceipts +
     this.tvReceipts +
     this.netExportMargin;
-  totalAydShare = 0;
-  patheTotalSupport = 0;
+
   // partner shares
   partnerMarginShare = 0;
   partnerSupportShare = 0;
   partnerAydShare = 0;
+  partnerMargin = 0;
+
+  // sum up variables
+  totalAydShare = 0;
+  patheTotalSupport = 0;
+  aydAndPartnerShare = 0;
+  patheTotalMargin = 0;
 
   receiptTypes = [
     "Distribution fees",
@@ -76,6 +91,8 @@ export class ReceiptCalculationComponent implements OnInit {
     this.getTotalAydShareReceipts();
     this.getPatheSupport();
     this.getPartnerShares();
+    this.getAydAndPartnerShares();
+    this.getTotalPatheMargin();
   }
   private getCNCSupport() {
     this.getCNCFinancialSupport("originTheatrical", 1000);
@@ -287,7 +304,7 @@ export class ReceiptCalculationComponent implements OnInit {
     const aydTv = this.getReceiptRightById("RNPPAydTv").cashedIn;
     const aydTvBrodcaster = this.getReceiptRightById("TVBroadcasterRNPP")
       .cashedIn;
-    this.totalAydShare = ayd + aydTv + aydTvBrodcaster;
+    this.totalAydShare = ayd + aydTv + aydTvBrodcaster + this.partnerMargin;
   }
 
   private getPatheSupport() {
@@ -300,6 +317,24 @@ export class ReceiptCalculationComponent implements OnInit {
     this.partnerMarginShare = this.totalMargin / 2;
     this.partnerSupportShare = this.patheTotalSupport / 2;
     this.partnerAydShare = this.totalAydShare / 2;
+    this.partnerMargin =
+      this.partnerMarginShare +
+      this.partnerSupportShare -
+      this.partnerAydShare -
+      this.partnerInvestment;
+  }
+
+  private getAydAndPartnerShares() {
+    this.aydAndPartnerShare = this.totalAydShare + this.partnerMargin;
+  }
+
+  private getTotalPatheMargin() {
+    this.patheTotalMargin =
+      this.totalMargin +
+      this.patheTotalSupport +
+      this.increaseSupport -
+      this.aydAndPartnerShare -
+      this.patheInvestment;
   }
 
   private getReceiptRightById(receiptRightId: string): ReceiptRight {

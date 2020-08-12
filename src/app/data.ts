@@ -220,7 +220,7 @@ export const ROYALTIES: ReceiptRight[] = [
     id: "RNPPPathe",
     title: "Pathé's share",
     type: "Net receipts repartition",
-    amount: 0,
+    amount: 1500,
     cashedIn: 0,
     rights: [
       "originTheatrical",

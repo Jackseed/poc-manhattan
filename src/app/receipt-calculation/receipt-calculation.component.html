@@ -36,7 +36,8 @@
       Margin before distribution fees:
       {{ netExportMargin | number: "1.0-0" }}
     </p>
-    <h3>
+    <mat-divider></mat-divider>
+    <h3 class="total">
       Total marging before distribution fees:
       {{ totalMargin | number: "1.0-0" }}
     </h3>
@@ -65,7 +66,7 @@
       </div>
     </div>
     <p>Pathé increased CNC support: {{ increaseSupport | number: "1.0-0" }}</p>
-    <h2>Partner shares</h2>
+    <h3>Partner's shares</h3>
     <p>
       Partner's margin before distribution fees:
       {{ partnerMarginShare | number: "1.0-0" }}
@@ -77,6 +78,14 @@
     <p>
       Partner's participation to right holders' share:
       {{ partnerAydShare | number: "1.0-0" }}
+    </p>
+    <p>
+      Partner's investment:
+      {{ partnerInvestment | number: "1.0-0" }}
+    </p>
+    <p>
+      Net Partner's margin:
+      {{ partnerMargin | number: "1.0-0" }}
     </p>
   </mat-card-content></mat-card
 >
@@ -90,6 +99,12 @@
       Net Pathé CNC support:
       {{ patheTotalSupport + increaseSupport | number: "1.0-0" }}
     </p>
-    <p>Right holders' share: {{ totalAydShare | number: "1.0-0" }}</p>
+    <p>Right holders' share: {{ aydAndPartnerShare | number: "1.0-0" }}</p>
+    <p>Pathé investment: {{ patheInvestment | number: "1.0-0" }}</p>
+    <mat-divider></mat-divider>
+    <h3 class="total">
+      Net Pathé's margin:
+      {{ patheTotalMargin | number: "1.0-0" }}
+    </h3>
   </mat-card-content>
 </mat-card>
