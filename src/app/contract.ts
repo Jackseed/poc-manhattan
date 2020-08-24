@@ -1,4 +1,11 @@
-interface Right {}
+interface Right {
+  id: string;
+  percentage: number;
+  parentIds: string[];
+  orgId: string;
+  termsIds: string[];
+  conditions?: Condition[];
+}
 
 /** Manage the control */
 interface Ownership extends Right {
@@ -168,7 +175,7 @@ interface Events {
 interface Condition {}
 
 /** Terms of a right */
-interface Right {
+interface Terms {
   id: string;
   territories: Excludable;
   channels: Excludable;
